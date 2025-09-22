@@ -41,4 +41,37 @@ public class LinkController : ControllerBase
 
 		return Ok();
 	}
+
+	[HttpPut]
+	[Route("[controller]/")]
+	public async Task<IActionResult> Update(Link link)
+	{
+		Link entity = await _context.Links.FirstOrDefaultAsync(x => x.Id == link.Id);
+
+		if (entity is not null)
+		{
+			entity.ShortUrl = link.ShortUrl;
+			entity.OriginalUrl = link.OriginalUrl;
+			await _context.SaveChangesAsync();
+
+			return Ok();
+		}
+
+		return BadRequest();
+	}
+
+	public async Task<IActionResult> Delete(long id)
+	{
+		Link entity = await _context.Links.FirstOrDefaultAsync(x => x.Id == id);
+
+		if (entity is not null)
+		{
+			_context.Links.Remove(entity);
+			await _context.SaveChangesAsync();
+
+			return Ok();
+		}
+
+		return BadRequest();
+	}
 }
