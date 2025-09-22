@@ -60,6 +60,8 @@ public class LinkController : ControllerBase
 		return BadRequest();
 	}
 
+	[HttpDelete]
+	[Route("[controller]/")]
 	public async Task<IActionResult> Delete(long id)
 	{
 		Link entity = await _context.Links.FirstOrDefaultAsync(x => x.Id == id);
