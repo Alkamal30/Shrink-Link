@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace ShrinkLink.LinkService.Migrations
+namespace ShrinkLink.LinkService.Infrastructure.Data.Migrations
 {
     /// <inheritdoc />
     public partial class Initial : Migration

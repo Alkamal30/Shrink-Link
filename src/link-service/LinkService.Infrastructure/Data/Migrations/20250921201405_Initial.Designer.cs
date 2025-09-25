@@ -3,11 +3,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using ShrinkLink.LinkService;
+using ShrinkLink.LinkService.Infrastructure.Data;
 
 #nullable disable
 
-namespace ShrinkLink.LinkService.Migrations
+namespace ShrinkLink.LinkService.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(LinkServiceContext))]
     [Migration("20250921201405_Initial")]

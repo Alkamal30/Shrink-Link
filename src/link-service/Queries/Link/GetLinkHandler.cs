@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using MediatR;
-using ShrinkLink.LinkService;
 using ShrinkLink.LinkService.Domain.Entities;
+using ShrinkLink.LinkService.Infrastructure.Data;
 
 namespace ShrinkLink.LinkService.Queries;
 

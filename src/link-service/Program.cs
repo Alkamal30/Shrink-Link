@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using MediatR;
-using ShrinkLink.LinkService;
+using ShrinkLink.LinkService.Infrastructure.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 

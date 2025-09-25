@@ -2,8 +2,8 @@ using System;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MediatR;
-using ShrinkLink.LinkService;
-using ShrinkLink.LinkService.Domain.Entities;
+using ShrinkLink.LinkService.Domain.Entities;   
+using ShrinkLink.LinkService.Infrastructure.Data;
 using ShrinkLink.LinkService.Queries;
 
 namespace ShrinkLink.LinkService.Controllers;
