@@ -9,6 +9,7 @@ using ShrinkLink.LinkService.Queries;
 namespace ShrinkLink.LinkService.Controllers;
 
 [ApiController]
+[Route("/api/[controller]")]
 public class LinkController : ControllerBase
 {
 	public LinkController(LinkServiceContext context, IMediator mediator)
@@ -21,7 +22,6 @@ public class LinkController : ControllerBase
 	private IMediator _mediator;
 
 	[HttpGet]
-	[Route("[controller]/")]
 	public async Task<ActionResult<IEnumerable<Link>>> GetAll()
 	{
 		var result = await _mediator.Send(new GetAllLinksQuery());
@@ -29,8 +29,7 @@ public class LinkController : ControllerBase
 		return Ok(result);
 	}
 
-	[HttpGet]
-	[Route("[controller]/{id}")]
+	[HttpGet("{id}")]
 	public async Task<ActionResult<Link>> Get(long id)
 	{
 		var result = await _mediator.Send(new GetLinkQuery(id));
@@ -44,7 +43,6 @@ public class LinkController : ControllerBase
 	}
 
 	[HttpPost]
-	[Route("[controller]/")]
 	public async Task<IActionResult> Add(Link link)
 	{
 		link.Id = 0;
@@ -56,7 +54,6 @@ public class LinkController : ControllerBase
 	}
 
 	[HttpPut]
-	[Route("[controller]/")]
 	public async Task<IActionResult> Update(Link link)
 	{
 		Link entity = await _context.Links.FirstOrDefaultAsync(x => x.Id == link.Id);
@@ -74,7 +71,6 @@ public class LinkController : ControllerBase
 	}
 
 	[HttpDelete]
-	[Route("[controller]/")]
 	public async Task<IActionResult> Delete(long id)
 	{
 		Link entity = await _context.Links.FirstOrDefaultAsync(x => x.Id == id);
