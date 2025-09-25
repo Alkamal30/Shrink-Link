@@ -1,5 +1,5 @@
 using MediatR;
-using ShrinkLink.LinkService.Models;
+using ShrinkLink.LinkService.Domain.Entities;
 
 namespace ShrinkLink.LinkService.Queries;
 

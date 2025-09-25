@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using MediatR;
 using ShrinkLink.LinkService;
-using ShrinkLink.LinkService.Models;
+using ShrinkLink.LinkService.Domain.Entities;
 
 namespace ShrinkLink.LinkService.Queries;
 

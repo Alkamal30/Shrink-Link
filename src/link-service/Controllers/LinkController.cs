@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MediatR;
 using ShrinkLink.LinkService;
-using ShrinkLink.LinkService.Models;
+using ShrinkLink.LinkService.Domain.Entities;
 using ShrinkLink.LinkService.Queries;
 
 namespace ShrinkLink.LinkService.Controllers;
