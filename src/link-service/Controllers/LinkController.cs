@@ -1,33 +1,46 @@
 using System;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using MediatR;
 using ShrinkLink.LinkService;
 using ShrinkLink.LinkService.Models;
+using ShrinkLink.LinkService.Queries;
 
 namespace ShrinkLink.LinkService.Controllers;
 
 [ApiController]
 public class LinkController : ControllerBase
 {
-	public LinkController(LinkServiceContext context)
+	public LinkController(LinkServiceContext context, IMediator mediator)
 	{
 		_context = context;
+		_mediator = mediator;
 	}
 
 	private LinkServiceContext _context;
+	private IMediator _mediator;
 
 	[HttpGet]
 	[Route("[controller]/")]
-	public async Task<IEnumerable<Link>> GetAll()
-	{		
-		return await _context.Links.ToListAsync();
+	public async Task<ActionResult<IEnumerable<Link>>> GetAll()
+	{
+		var result = await _mediator.Send(new GetAllLinksQuery());
+
+		return Ok(result);
 	}
 
 	[HttpGet]
 	[Route("[controller]/{id}")]
-	public async Task<Link> Get(long id)
+	public async Task<ActionResult<Link>> Get(long id)
 	{
-		return await _context.Links.FirstOrDefaultAsync(x => x.Id == id);
+		var result = await _mediator.Send(new GetLinkQuery(id));
+
+		if (result is null)
+		{
+			return NotFound();
+		}
+
+		return Ok(result);
 	}
 
 	[HttpPost]
