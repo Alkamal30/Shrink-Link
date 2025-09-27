@@ -2,11 +2,12 @@ using System;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MediatR;
+using ShrinkLink.LinkService.Application.Features.GetAllLinks;
+using ShrinkLink.LinkService.Application.Features.GetLink;
 using ShrinkLink.LinkService.Domain.Entities;   
 using ShrinkLink.LinkService.Infrastructure.Data;
-using ShrinkLink.LinkService.Queries;
 
-namespace ShrinkLink.LinkService.Controllers;
+namespace ShrinkLink.LinkService.Presentation.Controllers;
 
 [ApiController]
 [Route("/api/[controller]")]

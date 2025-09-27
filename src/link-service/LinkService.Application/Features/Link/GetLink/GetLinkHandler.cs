@@ -3,7 +3,7 @@ using MediatR;
 using ShrinkLink.LinkService.Domain.Entities;
 using ShrinkLink.LinkService.Infrastructure.Data;
 
-namespace ShrinkLink.LinkService.Queries;
+namespace ShrinkLink.LinkService.Application.Features.GetLink;
 
 public class GetLinkHandler : IRequestHandler<GetLinkQuery, Link>
 {

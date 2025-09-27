@@ -4,7 +4,7 @@ using MediatR;
 using ShrinkLink.LinkService.Domain.Entities;
 using ShrinkLink.LinkService.Infrastructure.Data;
 
-namespace ShrinkLink.LinkService.Queries;
+namespace ShrinkLink.LinkService.Application.Features.GetAllLinks;
 
 public class GetAllLinksHandler : IRequestHandler<GetAllLinksQuery, IEnumerable<Link>>
 {
