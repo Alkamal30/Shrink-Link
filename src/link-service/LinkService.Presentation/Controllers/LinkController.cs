@@ -1,11 +1,14 @@
 using System;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 using MediatR;
+using Microsoft.AspNetCore.Mvc; 
+using Microsoft.EntityFrameworkCore;
+using ShrinkLink.LinkService.Application.Features.AddLink;
 using ShrinkLink.LinkService.Application.Features.GetAllLinks;
 using ShrinkLink.LinkService.Application.Features.GetLink;
-using ShrinkLink.LinkService.Domain.Entities;   
+using ShrinkLink.LinkService.Domain.Entities;
 using ShrinkLink.LinkService.Infrastructure.Data;
+
 
 namespace ShrinkLink.LinkService.Presentation.Controllers;
 
@@ -44,14 +47,16 @@ public class LinkController : ControllerBase
 	}
 
 	[HttpPost]
-	public async Task<IActionResult> Add(Link link)
+	public async Task<ActionResult<Link>> Add(AddLinkCommand request)
 	{
-		link.Id = 0;
+        var result = await _mediator.Send(request);
 
-		await _context.Links.AddAsync(link);
-		await _context.SaveChangesAsync();
+        if (result is null)
+        {
+            return BadRequest();
+        }
 
-		return Ok();
+        return Ok(result);
 	}
 
 	[HttpPut]
