@@ -2,13 +2,12 @@ using System;
 using System.Collections.Generic;
 using MediatR;
 using Microsoft.AspNetCore.Mvc; 
-using Microsoft.EntityFrameworkCore;
 using ShrinkLink.LinkService.Application.Features.AddLink;
 using ShrinkLink.LinkService.Application.Features.GetAllLinks;
 using ShrinkLink.LinkService.Application.Features.GetLink;
+using ShrinkLink.LinkService.Application.Features.UpdateLink;
+using ShrinkLink.LinkService.Application.Features.DeleteLink;
 using ShrinkLink.LinkService.Domain.Entities;
-using ShrinkLink.LinkService.Infrastructure.Data;
-
 
 namespace ShrinkLink.LinkService.Presentation.Controllers;
 
@@ -16,13 +15,11 @@ namespace ShrinkLink.LinkService.Presentation.Controllers;
 [Route("/api/[controller]")]
 public class LinkController : ControllerBase
 {
-	public LinkController(LinkServiceContext context, IMediator mediator)
+	public LinkController(IMediator mediator)
 	{
-		_context = context;
 		_mediator = mediator;
 	}
 
-	private LinkServiceContext _context;
 	private IMediator _mediator;
 
 	[HttpGet]
@@ -60,35 +57,18 @@ public class LinkController : ControllerBase
 	}
 
 	[HttpPut]
-	public async Task<IActionResult> Update(Link link)
+	public async Task<ActionResult> Update(UpdateLinkCommand request)
 	{
-		Link entity = await _context.Links.FirstOrDefaultAsync(x => x.Id == link.Id);
-
-		if (entity is not null)
-		{
-			entity.ShortUrl = link.ShortUrl;
-			entity.OriginalUrl = link.OriginalUrl;
-			await _context.SaveChangesAsync();
-
-			return Ok();
-		}
-
-		return BadRequest();
+        await _mediator.Send(request);
+        
+        return Ok();
 	}
 
 	[HttpDelete]
-	public async Task<IActionResult> Delete(long id)
+	public async Task<ActionResult> Delete(long id)
 	{
-		Link entity = await _context.Links.FirstOrDefaultAsync(x => x.Id == id);
-
-		if (entity is not null)
-		{
-			_context.Links.Remove(entity);
-			await _context.SaveChangesAsync();
-
-			return Ok();
-		}
-
-		return BadRequest();
+        await _mediator.Send(new DeleteLinkCommand(id));
+        
+        return Ok();
 	}
 }
