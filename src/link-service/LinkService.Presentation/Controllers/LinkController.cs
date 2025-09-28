@@ -7,6 +7,7 @@ using ShrinkLink.LinkService.Application.Features.GetAllLinks;
 using ShrinkLink.LinkService.Application.Features.GetLink;
 using ShrinkLink.LinkService.Application.Features.UpdateLink;
 using ShrinkLink.LinkService.Application.Features.DeleteLink;
+using ShrinkLink.LinkService.Application.Features.ShrinkLink;
 using ShrinkLink.LinkService.Domain.Entities;
 
 namespace ShrinkLink.LinkService.Presentation.Controllers;
@@ -21,6 +22,19 @@ public class LinkController : ControllerBase
 	}
 
 	private IMediator _mediator;
+
+    [HttpPost("shrink")]
+    public async Task<ActionResult<string>> Shrink(string url)
+    {
+        var result = await _mediator.Send(new ShrinkLinkCommand(url)); 
+
+        if (result is null)
+        {
+            return BadRequest();
+        }
+
+        return Ok(result);
+    }
 
 	[HttpGet]
 	public async Task<ActionResult<IEnumerable<Link>>> GetAll()
