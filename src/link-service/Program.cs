@@ -7,7 +7,7 @@ using ShrinkLink.LinkService.Infrastructure.Services;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDbContext<LinkServiceContext>(options =>
-		options.UseSqlite("Data Source=database.db"));
+		options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddScoped<IShortCodeService, ShortCodeService>();
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(Program).Assembly));
 builder.Services.AddControllers();
