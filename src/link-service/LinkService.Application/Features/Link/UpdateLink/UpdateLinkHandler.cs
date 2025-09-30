@@ -1,19 +1,18 @@
-
 using Microsoft.EntityFrameworkCore;
 using MediatR;
+using ShrinkLink.LinkService.Domain.Data;
 using ShrinkLink.LinkService.Domain.Entities;
-using ShrinkLink.LinkService.Infrastructure.Data;
 
 namespace ShrinkLink.LinkService.Application.Features.UpdateLink;
 
 public class UpdateLinkHandler : IRequestHandler<UpdateLinkCommand>
 {
-	public UpdateLinkHandler(LinkServiceContext context)
+	public UpdateLinkHandler(ILinkServiceContext context)
 	{
 		_context = context;
 	}
 
-	private LinkServiceContext _context;
+	private ILinkServiceContext _context;
 
 	public async Task Handle(UpdateLinkCommand request, CancellationToken cancellationToken)
 	{

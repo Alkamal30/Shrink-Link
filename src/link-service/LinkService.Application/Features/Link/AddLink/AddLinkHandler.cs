@@ -1,19 +1,19 @@
 
 using Microsoft.EntityFrameworkCore;
 using MediatR;
+using ShrinkLink.LinkService.Domain.Data;
 using ShrinkLink.LinkService.Domain.Entities;
-using ShrinkLink.LinkService.Infrastructure.Data;
 
 namespace ShrinkLink.LinkService.Application.Features.AddLink;
 
 public class AddLinkHandler : IRequestHandler<AddLinkCommand, Link>
 {
-	public AddLinkHandler(LinkServiceContext context)
+	public AddLinkHandler(ILinkServiceContext context)
 	{
 		_context = context;
 	}
 
-	private LinkServiceContext _context;
+	private ILinkServiceContext _context;
 
 	public async Task<Link> Handle(AddLinkCommand request, CancellationToken cancellationToken)
 	{
