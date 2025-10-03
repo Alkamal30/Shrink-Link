@@ -5,7 +5,7 @@ using ShrinkLink.LinkService.Domain.Entities;
 
 namespace ShrinkLink.LinkService.Application.Features.GetLink;
 
-public class GetLinkHandler : IRequestHandler<GetLinkQuery, Link>
+public class GetLinkHandler : IRequestHandler<GetLinkQuery, Link?>
 {
 	public GetLinkHandler(ILinkServiceContext context)
 	{
@@ -14,7 +14,7 @@ public class GetLinkHandler : IRequestHandler<GetLinkQuery, Link>
 
 	private readonly ILinkServiceContext _context;
 
-	public async Task<Link> Handle(GetLinkQuery request, CancellationToken cancellationToken)
+	public async Task<Link?> Handle(GetLinkQuery request, CancellationToken cancellationToken)
 	{
 		return await _context.Links.FirstOrDefaultAsync(x => x.Id == request.Id);
 	}
