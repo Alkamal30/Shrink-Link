@@ -31,7 +31,6 @@ public class ShrinkLinkHandler : IRequestHandler<ShrinkLinkCommand, string>
         string shortCode = _shortCodeService.GenerateFromId(entityEntry.Entity.Id);
         entityEntry.Entity.ShortUrl = shortCode; 
         
-        _context.Links.Update(entityEntry.Entity);
         await _context.SaveChangesAsync();
 
         return shortCode;
