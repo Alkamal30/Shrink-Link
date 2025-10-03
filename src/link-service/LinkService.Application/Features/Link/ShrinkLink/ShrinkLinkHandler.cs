@@ -19,7 +19,7 @@ public class ShrinkLinkHandler : IRequestHandler<ShrinkLinkCommand, string>
 
 	public async Task<string> Handle(ShrinkLinkCommand request, CancellationToken cancellationToken)
 	{
-        Link newLink = new()
+        var newLink = new Link()
         {
             ShortUrl = string.Empty,
             OriginalUrl = request.OriginalUrl,
@@ -28,7 +28,7 @@ public class ShrinkLinkHandler : IRequestHandler<ShrinkLinkCommand, string>
         var entityEntry = await _context.Links.AddAsync(newLink);
         await _context.SaveChangesAsync();
 
-        string shortCode = _shortCodeService.GenerateFromId(entityEntry.Entity.Id);
+        var shortCode = _shortCodeService.GenerateFromId(entityEntry.Entity.Id);
         entityEntry.Entity.ShortUrl = shortCode; 
         
         await _context.SaveChangesAsync();

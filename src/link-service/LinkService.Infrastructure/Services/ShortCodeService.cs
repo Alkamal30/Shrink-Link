@@ -14,8 +14,8 @@ public class ShortCodeService : IShortCodeService
             return Alphabet[0].ToString();
         }
 
-        string result = "";
-        long number = id;
+        var result = string.Empty;
+        var number = id;
         
         while (number > 0)
         {

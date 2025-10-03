@@ -17,7 +17,7 @@ public class AddLinkHandler : IRequestHandler<AddLinkCommand, Link>
 
 	public async Task<Link> Handle(AddLinkCommand request, CancellationToken cancellationToken)
 	{
-        Link newLink = new()
+        var newLink = new Link()
         {
             ShortUrl = request.ShortCode,
             OriginalUrl = request.OriginalUrl,

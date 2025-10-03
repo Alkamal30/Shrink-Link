@@ -28,11 +28,6 @@ public class LinkController : ControllerBase
     {
         var result = await _mediator.Send(new ShrinkLinkCommand(url)); 
 
-        if (result is null)
-        {
-            return BadRequest();
-        }
-
         return Ok(result);
     }
 
