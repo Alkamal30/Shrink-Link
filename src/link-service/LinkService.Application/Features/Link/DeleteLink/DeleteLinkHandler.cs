@@ -12,7 +12,7 @@ public class DeleteLinkHandler : IRequestHandler<DeleteLinkCommand>
 		_context = context;
 	}
 
-	private ILinkServiceContext _context;
+	private readonly ILinkServiceContext _context;
 
 	public async Task Handle(DeleteLinkCommand request, CancellationToken cancellationToken)
 	{

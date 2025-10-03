@@ -14,8 +14,8 @@ public class ShrinkLinkHandler : IRequestHandler<ShrinkLinkCommand, string>
         _shortCodeService = shortCodeService;
 	}
 
-	private ILinkServiceContext _context;
-    private IShortCodeService _shortCodeService;
+	private readonly ILinkServiceContext _context;
+    private readonly IShortCodeService _shortCodeService;
 
 	public async Task<string> Handle(ShrinkLinkCommand request, CancellationToken cancellationToken)
 	{

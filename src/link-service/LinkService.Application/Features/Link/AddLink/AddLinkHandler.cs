@@ -13,7 +13,7 @@ public class AddLinkHandler : IRequestHandler<AddLinkCommand, Link>
 		_context = context;
 	}
 
-	private ILinkServiceContext _context;
+	private readonly ILinkServiceContext _context;
 
 	public async Task<Link> Handle(AddLinkCommand request, CancellationToken cancellationToken)
 	{

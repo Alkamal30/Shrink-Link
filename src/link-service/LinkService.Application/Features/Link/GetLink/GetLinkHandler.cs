@@ -12,7 +12,7 @@ public class GetLinkHandler : IRequestHandler<GetLinkQuery, Link>
 		_context = context;
 	}
 
-	private ILinkServiceContext _context;
+	private readonly ILinkServiceContext _context;
 
 	public async Task<Link> Handle(GetLinkQuery request, CancellationToken cancellationToken)
 	{

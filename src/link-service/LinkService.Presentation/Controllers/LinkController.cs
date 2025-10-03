@@ -21,7 +21,7 @@ public class LinkController : ControllerBase
 		_mediator = mediator;
 	}
 
-	private IMediator _mediator;
+	private readonly IMediator _mediator;
 
     [HttpPost("shrink")]
     public async Task<ActionResult<string>> Shrink(string url)

@@ -13,7 +13,7 @@ public class GetAllLinksHandler : IRequestHandler<GetAllLinksQuery, IEnumerable<
 		_context = context;
 	}
 
-	private ILinkServiceContext _context;
+	private readonly ILinkServiceContext _context;
 
 	public async Task<IEnumerable<Link>> Handle(GetAllLinksQuery request, CancellationToken cancellationToken)
 	{
