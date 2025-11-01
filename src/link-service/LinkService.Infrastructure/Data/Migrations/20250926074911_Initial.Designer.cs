@@ -7,7 +7,7 @@ using ShrinkLink.LinkService.Infrastructure.Data;
 
 #nullable disable
 
-namespace ShrinkLink.LinkService.LinkService.Infrastructure.Data.Migrations
+namespace ShrinkLink.LinkService.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(LinkServiceContext))]
     [Migration("20250926074911_Initial")]
