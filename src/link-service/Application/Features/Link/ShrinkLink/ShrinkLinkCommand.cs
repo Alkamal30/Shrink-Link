@@ -1,4 +1,3 @@
-
 using MediatR;
 
 namespace ShrinkLink.LinkService.Application.Features.ShrinkLink;

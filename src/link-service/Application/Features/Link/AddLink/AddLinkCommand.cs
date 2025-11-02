@@ -1,4 +1,3 @@
-
 using MediatR;
 using ShrinkLink.LinkService.Domain.Entities;
 

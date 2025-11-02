@@ -1,5 +1,4 @@
 using Microsoft.EntityFrameworkCore;
-using MediatR;
 using ShrinkLink.LinkService.Domain.Data;
 using ShrinkLink.LinkService.Domain.Services;
 using ShrinkLink.LinkService.Infrastructure.Data;
