@@ -7,7 +7,7 @@ using ShrinkLink.LinkService.Infrastructure.Services;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDbContext<LinkServiceContext>(options =>
-		options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
+		options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddScoped<ILinkServiceContext>(provider =>
     provider.GetRequiredService<LinkServiceContext>());
 builder.Services.AddScoped<IShortCodeService, ShortCodeService>();
