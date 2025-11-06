@@ -4,12 +4,8 @@ using ShrinkLink.LinkService.Domain.Entities;
 
 namespace ShrinkLink.LinkService.Infrastructure.Data;
 
-public class LinkServiceContext : DbContext, ILinkServiceContext
+public class LinkServiceContext(DbContextOptions<LinkServiceContext> options) : DbContext(options), ILinkServiceContext
 {
-	public LinkServiceContext(DbContextOptions<LinkServiceContext> options) : base(options)
-    {
-    }
-
 	public DbSet<Link> Links => Set<Link>();
 
     public async Task<int> SaveChangesAsync()
