@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
@@ -14,10 +15,10 @@ namespace ShrinkLink.LinkService.Infrastructure.Data.Migrations
                 name: "Links",
                 columns: table => new
                 {
-                    Id = table.Column<long>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    ShortUrl = table.Column<string>(type: "TEXT", nullable: false),
-                    OriginalUrl = table.Column<string>(type: "TEXT", nullable: false)
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    ShortUrl = table.Column<string>(type: "text", nullable: false),
+                    OriginalUrl = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {

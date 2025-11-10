@@ -7,7 +7,7 @@ using ShrinkLink.LinkService.Infrastructure.Services;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDbContext<LinkServiceContext>(options =>
-		options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
+		options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddScoped<ILinkServiceContext>(provider =>
     provider.GetRequiredService<LinkServiceContext>());
 builder.Services.AddScoped<IShortCodeService, ShortCodeService>();
@@ -20,6 +20,14 @@ var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
 {
+    // TODO: Find a better solution and remove this code
+    using var scope = app.Services.CreateScope();
+    var dbContext =  scope.ServiceProvider.GetRequiredService<LinkServiceContext>();
+    if (dbContext.Database.GetPendingMigrations().Any())
+    {
+        await  dbContext.Database.MigrateAsync();    
+    }
+    
     app.UseSwagger();
     app.UseSwaggerUI();
 }
