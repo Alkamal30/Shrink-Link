@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package links;
+
+option go_package = "./internal/contracts";
+
+service LinkService {
+  rpc GetOriginalLink (GetOriginalLinkRequest) returns (GetOriginalLinkResponse);
+}
+
+message GetOriginalLinkRequest {
+  string code = 1;
+}
+
+message GetOriginalLinkResponse {
+  string original_link = 1;
+}
