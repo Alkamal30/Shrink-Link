@@ -3,6 +3,7 @@ using ShrinkLink.LinkService.Domain.Data;
 using ShrinkLink.LinkService.Domain.Services;
 using ShrinkLink.LinkService.Infrastructure.Data;
 using ShrinkLink.LinkService.Infrastructure.Services;
+using ShrinkLink.LinkService.Infrastructure.Services.Grpc;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,6 +14,7 @@ builder.Services.AddScoped<ILinkServiceContext>(provider =>
 builder.Services.AddScoped<IShortCodeService, ShortCodeService>();
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(Program).Assembly));
 builder.Services.AddControllers();
+builder.Services.AddGrpc();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -35,5 +37,6 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.MapControllers();
+app.MapGrpcService<LinkGrpcService>();
 
 app.Run();

@@ -6,8 +6,14 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <RootNamespace>ShrinkLink.LinkService</RootNamespace>
   </PropertyGroup>
-
+    
   <ItemGroup>
+      <Protobuf Include=".\Application\Contracts\*.proto" GrpcServices="Server"/>
+  </ItemGroup>
+    
+  <ItemGroup>
+    <PackageReference Include="Google.Protobuf" Version="3.33.0" />
+    <PackageReference Include="Grpc.AspNetCore" Version="2.71.0" />
     <PackageReference Include="MediatR" Version="13.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.16" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.9" />
