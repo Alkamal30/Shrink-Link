@@ -1,0 +1,5 @@
+url: "localhost:8080"
+grpc:
+  url: "localhost:50051"
+  useTls: false
+  certificatePath: ""

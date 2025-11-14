@@ -25,4 +25,19 @@ public class ShortCodeService : IShortCodeService
 
         return result;
     }
+
+    public long ConvertToId(string shortCode)
+    {
+        long id = 0;
+        long currentBase = 1;
+
+        foreach (var character in shortCode.Reverse())
+        {
+            var characterIndex = Alphabet.IndexOf(character);
+            id += currentBase * characterIndex;
+            currentBase *= Base;
+        }
+
+        return id;
+    }
 }
