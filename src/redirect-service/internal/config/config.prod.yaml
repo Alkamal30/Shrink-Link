@@ -1,0 +1,5 @@
+# Uncomment and set correct values
+# grpc:
+  # url: ""
+  # useTls: false
+  # certificatePath: ""

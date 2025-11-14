@@ -1,0 +1,4 @@
+grpc:
+  url: "localhost:50051"
+  useTls: false
+  certificatePath: ""
