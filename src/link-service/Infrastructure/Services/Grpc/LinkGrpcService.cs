@@ -1,15 +1,28 @@
 using Grpc.Core;
+using Microsoft.EntityFrameworkCore;
 using ShrinkLink.LinkService.Application.Contracts;
+using ShrinkLink.LinkService.Domain.Data;
+using ShrinkLink.LinkService.Domain.Services;
 
 namespace ShrinkLink.LinkService.Infrastructure.Services.Grpc;
 
-public class LinkGrpcService : LinkService.Application.Contracts.LinkService.LinkServiceBase
+public class LinkGrpcService(ILinkServiceContext context, IShortCodeService shortCodeService)
+    : LinkService.Application.Contracts.LinkService.LinkServiceBase
 {
-    public override Task<GetOriginalLinkResponse> GetOriginalLink(GetOriginalLinkRequest request, ServerCallContext context)
+    public override async Task<GetOriginalLinkResponse> GetOriginalLink(GetOriginalLinkRequest request, ServerCallContext callContext)
     {
-        return Task.FromResult(new GetOriginalLinkResponse
+        var linkId = shortCodeService.ConvertToId(request.Code);
+        
+        var link = await context.Links.FirstOrDefaultAsync(x => x.Id == linkId);
+
+        if (link is null)
         {
-            OriginalLink = $"localhost/result/{request.Code}"
-        });
+            throw new RpcException(new Status(StatusCode.NotFound, "Link not found"));
+        }
+        
+        return new GetOriginalLinkResponse
+        {
+            OriginalLink = link.OriginalUrl
+        };
     }
 }
