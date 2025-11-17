@@ -1,13 +1,31 @@
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
 import './App.css'
 
-function App() {
-  const [value, setValue] = useState<string>("");
-  const [result, setResult] = useState<string>("");
+const API_HOST = "https://localhost:5000";
 
-  const handleClick = async () => {
+function App() {
+  const [value, setValue] = useState("");
+  const [result, setResult] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  const handleClick = useCallback(async () => {
+    const trimmedValue = value.trim();
+
+    if(!trimmedValue) {
+      setError("Input field is empty!");
+      return;
+    }
+
+    setLoading(true);
+    setError("");
+    setResult("");
+
+    const requestUrl = new URL("/link/shrink", API_HOST);
+    requestUrl.searchParams.append("url", trimmedValue);
+
     try {
-      const response = await fetch(`https://localhost:5000/link/shrink?url=${value}`, {
+      const response = await fetch(requestUrl.toString(), {
           method: "POST",
           headers: {
             'Accept': 'application/json',
@@ -15,14 +33,18 @@ function App() {
           }
         });
 
-      const res = await response.json()
-      setResult(`https://localhost:5000/${res}`)
-    } catch(err: any) {
+      if(!response.ok) {
+        throw new Error(`Error! Status code: ${response.status}`);
+      }
 
+      const shortCode = await response.json();
+      setResult(new URL(shortCode, API_HOST).toString());
+    } catch(err: unknown) {
+      setError(err instanceof Error ? err.message : "Unknown error");
     } finally {
-
+      setLoading(false);
     }
-  }
+  }, [value]);
 
   return (
     <>
@@ -32,13 +54,14 @@ function App() {
       <div className="link-input">
         <input className="link-input__field" type="text" placeholder="www.your-link.com"
           value={value} onChange={(e) => setValue(e.target.value)}/>
-        <button className="link-input__action" onClick={handleClick}>
+        <button className="link-input__action" onClick={handleClick} disabled={loading || !value.trim()}>
           Shrink
         </button>
         <p className="link-input__tip">
           Enter your link and click button to shorten
         </p>
-        <a href={result}>{result}</a>
+        {result && (<a href={result}>{result}</a>)}
+        {error && (<p style={{color: 'red'}}>{error}</p>)}
       </div>
     </>
   )
