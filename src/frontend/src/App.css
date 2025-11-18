@@ -1,0 +1,24 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+.link-input {
+  padding: 2em;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.link-input__field {
+  text-align: center;
+  width: fit-content;
+}
+
+.link-input__tip {
+  font-size: 14px;
+  color: #888;
+}
