@@ -1,6 +1,0 @@
-# Uncomment and set correct values
-# url: "www.redirect-service.example.com"
-# grpc:
-#   url: ""
-#   useTls: true
-  # certificatePath: ""

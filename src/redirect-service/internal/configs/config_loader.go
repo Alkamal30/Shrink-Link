@@ -1,4 +1,4 @@
-package config
+package configs
 
 import (
 	"os"
@@ -12,7 +12,8 @@ func LoadConfig() (*AppConfig, error) {
 
 	viper.SetConfigName("config")
 	viper.SetConfigType("yaml")
-	viper.AddConfigPath("./internal/config")
+	viper.AddConfigPath("./configs")
+	viper.AddConfigPath("./internal/configs")
 
 	if err := viper.ReadInConfig(); err != nil {
 		return nil, err
