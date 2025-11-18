@@ -1,7 +1,6 @@
 import { useCallback, useState } from 'react'
+import { shrinkLink } from './services/linkService';
 import './App.css'
-
-const API_HOST = "https://localhost:5000";
 
 function App() {
   const [value, setValue] = useState("");
@@ -21,24 +20,9 @@ function App() {
     setError("");
     setResult("");
 
-    const requestUrl = new URL("/link/shrink", API_HOST);
-    requestUrl.searchParams.append("url", trimmedValue);
-
     try {
-      const response = await fetch(requestUrl.toString(), {
-          method: "POST",
-          headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-          }
-        });
-
-      if(!response.ok) {
-        throw new Error(`Error! Status code: ${response.status}`);
-      }
-
-      const shortCode = await response.json();
-      setResult(new URL(shortCode, API_HOST).toString());
+      const shrinkedLink = await shrinkLink(trimmedValue);
+      setResult(shrinkedLink);
     } catch(err: unknown) {
       setError(err instanceof Error ? err.message : "Unknown error");
     } finally {
