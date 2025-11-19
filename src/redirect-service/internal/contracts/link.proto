@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package links;
 
-option go_package = "./internal/contracts";
+option go_package = "./;contracts";
 
 service LinkService {
   rpc GetOriginalLink (GetOriginalLinkRequest) returns (GetOriginalLinkResponse);
