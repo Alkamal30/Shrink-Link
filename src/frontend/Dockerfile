@@ -1,5 +1,6 @@
 ﻿FROM node:24-alpine AS build
-ENV VITE_API_HOST="https://localhost:5000"
+ARG VITE_API_HOST="https://localhost:5000"
+ENV VITE_API_HOST=$VITE_API_HOST
 WORKDIR /src
 COPY package.json package-lock.json ./
 RUN npm ci
