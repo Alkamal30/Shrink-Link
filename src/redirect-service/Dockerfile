@@ -14,5 +14,5 @@ FROM alpine:latest
 WORKDIR /app
 COPY --from=build /src/server .
 COPY --from=build /src/internal/configs/*.yaml ./configs/
-EXPOSE 5200
+EXPOSE 8080
 ENTRYPOINT ["./server"]

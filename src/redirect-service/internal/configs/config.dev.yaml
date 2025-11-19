@@ -1,4 +1,4 @@
-url: "localhost:8080"
+url: "0.0.0.0:8080"
 grpc:
   url: "localhost:50051"
   useTls: false
