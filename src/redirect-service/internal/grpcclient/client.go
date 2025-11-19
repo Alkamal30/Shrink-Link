@@ -5,14 +5,14 @@ import (
 	"crypto/x509"
 	"fmt"
 	"os"
-	"redirect-service/internal/config"
+	"redirect-service/internal/configs"
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"
 	"google.golang.org/grpc/credentials/insecure"
 )
 
-func NewClientConnection(cfg config.GrpcConfig) (*grpc.ClientConn, error) {
+func NewClientConnection(cfg configs.GrpcConfig) (*grpc.ClientConn, error) {
 	if !cfg.UseTls {
 		return grpc.NewClient(
 			cfg.Url,

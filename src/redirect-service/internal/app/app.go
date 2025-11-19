@@ -2,7 +2,7 @@ package app
 
 import (
 	"log"
-	"redirect-service/internal/config"
+	"redirect-service/internal/configs"
 	"redirect-service/internal/contracts"
 	"redirect-service/internal/grpcclient"
 	"redirect-service/internal/handlers"
@@ -11,7 +11,7 @@ import (
 )
 
 func Run() {
-	cfg, err := config.LoadConfig()
+	cfg, err := configs.LoadConfig()
 	if err != nil {
 		log.Panicf("Cannot load configuration: %v", err)
 	}
