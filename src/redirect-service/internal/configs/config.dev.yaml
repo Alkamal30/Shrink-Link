@@ -3,3 +3,6 @@ grpc:
   url: "localhost:50051"
   useTls: false
   certificatePath: ""
+redis:
+  address: "localhost:6379"
+  password: ""
