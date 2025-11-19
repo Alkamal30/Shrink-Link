@@ -2,21 +2,24 @@
 
 ## Getting Started
 
-### Containers
+### docker-compose
 
 1. Clone repository
 ```shell
 git clone https://github.com/Alkamal30/Shrink-Link.git
 ```
 
-2. Run next command:
+2. Generate gRPC files in Golang:
+```shell
+protoc --go_out=./src/redirect-service/internal/contracts --go-grpc_out=./src/redirect-service/internal/contracts ./src/redirect-service/internal/contracts/*.proto
+```
+
+3. Run
 ```shell
 docker compose up -d
 ```
 
-3. Open `https://localhost:8080/swagger` in browser
-
-### Localhost
+### Host
 
 1. Clone repository
 ```shell
@@ -33,4 +36,9 @@ docker run --name some-postgres -e POSTGRES_PASSWORD=postgres -d -p "5432:5432" 
 dotnet dev-certs https --trust
 ```
 
-4. Run projects
+4. Generate gRPC files in Golang:
+```shell
+protoc --go_out=./src/redirect-service/internal/contracts --go-grpc_out=./src/redirect-service/internal/contracts ./src/redirect-service/internal/contracts/*.proto
+```
+
+5. Run projects
