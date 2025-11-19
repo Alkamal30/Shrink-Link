@@ -3,3 +3,6 @@ grpc:
   url: ""
   useTls: false
   certificatePath: ""
+redis:
+  address: ""
+  password: ""
