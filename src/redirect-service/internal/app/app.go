@@ -8,6 +8,7 @@ import (
 	"redirect-service/internal/handlers"
 
 	"github.com/gin-gonic/gin"
+	"github.com/redis/go-redis/v9"
 )
 
 func Run() {
@@ -22,10 +23,12 @@ func Run() {
 	}
 	defer conn.Close()
 
+	redisClient := createRedisClient(cfg.Redis)
+
 	engine := gin.Default()
 
 	linkClient := contracts.NewLinkServiceClient(conn)
-	redirectHandler := handlers.NewRedirectHandler(linkClient)
+	redirectHandler := handlers.NewRedirectHandler(linkClient, redisClient)
 
 	api := engine.Group("/api")
 	{
@@ -33,4 +36,13 @@ func Run() {
 	}
 
 	engine.Run(cfg.Url)
+}
+
+func createRedisClient(cfg configs.RedisConfig) *redis.Client {
+	return redis.NewClient(&redis.Options{
+		Addr:     cfg.Address,
+		Password: cfg.Password,
+		DB:       0,
+		Protocol: 2,
+	})
 }
