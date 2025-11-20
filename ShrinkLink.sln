@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LinkService", "src\link-ser
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gateway", "src\Gateway\Gateway.csproj", "{607C1A75-7185-4FEE-9B25-6FBA09D5D669}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserService", "src\user-service\UserService.csproj", "{D54ECF1C-1756-4128-BBF9-F3C7DAF15DEC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -41,6 +43,18 @@ Global
 		{607C1A75-7185-4FEE-9B25-6FBA09D5D669}.Release|x64.Build.0 = Release|Any CPU
 		{607C1A75-7185-4FEE-9B25-6FBA09D5D669}.Release|x86.ActiveCfg = Release|Any CPU
 		{607C1A75-7185-4FEE-9B25-6FBA09D5D669}.Release|x86.Build.0 = Release|Any CPU
+		{D54ECF1C-1756-4128-BBF9-F3C7DAF15DEC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D54ECF1C-1756-4128-BBF9-F3C7DAF15DEC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D54ECF1C-1756-4128-BBF9-F3C7DAF15DEC}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{D54ECF1C-1756-4128-BBF9-F3C7DAF15DEC}.Debug|x64.Build.0 = Debug|Any CPU
+		{D54ECF1C-1756-4128-BBF9-F3C7DAF15DEC}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{D54ECF1C-1756-4128-BBF9-F3C7DAF15DEC}.Debug|x86.Build.0 = Debug|Any CPU
+		{D54ECF1C-1756-4128-BBF9-F3C7DAF15DEC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D54ECF1C-1756-4128-BBF9-F3C7DAF15DEC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D54ECF1C-1756-4128-BBF9-F3C7DAF15DEC}.Release|x64.ActiveCfg = Release|Any CPU
+		{D54ECF1C-1756-4128-BBF9-F3C7DAF15DEC}.Release|x64.Build.0 = Release|Any CPU
+		{D54ECF1C-1756-4128-BBF9-F3C7DAF15DEC}.Release|x86.ActiveCfg = Release|Any CPU
+		{D54ECF1C-1756-4128-BBF9-F3C7DAF15DEC}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
