@@ -3,4 +3,4 @@ using ShrinkLink.UserService.Domain.Entities;
 
 namespace ShrinkLink.UserService.Application.Features.Users;
 
-public record GetUsersQuery : IRequest<IEnumerable<User>>;
+public record CreateUserCommand(string Email, string Password) : IRequest<CreateUserResponse>;

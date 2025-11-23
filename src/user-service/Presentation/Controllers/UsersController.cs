@@ -35,4 +35,33 @@ public class UsersController(ISender sender) : ControllerBase
 
         return Ok(result);
     }
+
+    [HttpPost]
+    public async Task<IActionResult> Create(CreateUserCommand command, CancellationToken cancellationToken)
+    {
+        var result = await _sender.Send(command, cancellationToken);
+
+        if (result is null)
+        {
+            return BadRequest();
+        }
+
+        return CreatedAtAction(nameof(GetById), new { id = result.Id }, result);
+    }
+
+    [HttpPut]
+    public async Task<IActionResult> Update(UpdateUserCommand command, CancellationToken cancellationToken)
+    {
+        await _sender.Send(command, cancellationToken);
+
+        return NoContent();
+    }
+
+    [HttpDelete]
+    public async Task<IActionResult> Delete(DeleteUserCommand command, CancellationToken cancellationToken)
+    {
+        await _sender.Send(command, cancellationToken);
+
+        return NoContent();
+    }
 }

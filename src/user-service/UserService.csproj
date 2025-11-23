@@ -32,6 +32,18 @@
     <Compile Update="Application\Features\Users\GetUsersHandler.cs">
       <DependentUpon>GetUsersQuery.cs</DependentUpon>
     </Compile>
+	<Compile Update="Application\Features\Users\CreateUserHandler.cs">
+	  <DependentUpon>CreateUserCommand.cs</DependentUpon>
+	</Compile>
+	<Compile Update="Application\Features\Users\CreateUserResponse.cs">
+      <DependentUpon>CreateUserCommand.cs</DependentUpon>
+	</Compile>
+	<Compile Update="Application\Features\Users\UpdateUserHandler.cs">
+      <DependentUpon>UpdateUserCommand.cs</DependentUpon>
+	</Compile>
+	<Compile Update="Application\Features\Users\DeleteUserHandler.cs">
+	  <DependentUpon>DeleteUserCommand.cs</DependentUpon>
+	</Compile>
   </ItemGroup>
 
 </Project>
