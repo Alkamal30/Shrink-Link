@@ -28,11 +28,11 @@ namespace ShrinkLink.UserService.Infrastructure.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<string>("Password")
+                    b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("Username")
+                    b.Property<string>("Password")
                         .IsRequired()
                         .HasColumnType("text");
 

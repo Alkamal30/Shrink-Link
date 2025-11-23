@@ -12,7 +12,7 @@ using ShrinkLink.UserService.Infrastructure.Data;
 namespace ShrinkLink.UserService.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(UserServiceContext))]
-    [Migration("20251121101138_Initial")]
+    [Migration("20251123155449_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -31,11 +31,11 @@ namespace ShrinkLink.UserService.Infrastructure.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<string>("Password")
+                    b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("Username")
+                    b.Property<string>("Password")
                         .IsRequired()
                         .HasColumnType("text");
 
