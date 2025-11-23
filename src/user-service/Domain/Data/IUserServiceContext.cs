@@ -6,5 +6,5 @@ namespace ShrinkLink.UserService.Domain.Data;
 public interface IUserServiceContext
 {
     DbSet<User> Users { get; }
-    Task<int> SaveChangesAsync();
+    Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
 }

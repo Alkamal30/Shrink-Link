@@ -8,8 +8,8 @@ public class UserServiceContext(DbContextOptions<UserServiceContext> options) : 
 {
     public DbSet<User> Users => Set<User>();
     
-    public async Task<int> SaveChangesAsync()
+    public new async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     {
-        return await base.SaveChangesAsync();
+        return await base.SaveChangesAsync(cancellationToken);
     }
 }
