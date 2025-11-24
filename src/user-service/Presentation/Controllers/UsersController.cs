@@ -1,3 +1,4 @@
+using FluentResults;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using ShrinkLink.UserService.Application.Features.Users;
@@ -11,15 +12,20 @@ public class UsersController(ISender sender) : ControllerBase
     private readonly ISender _sender = sender;
 
     [HttpPost("register")]
-    public async Task<IActionResult> Register(RegisterUserCommand command, CancellationToken cancellationToken)
+    public async Task<IActionResult> Register([FromBody] RegisterUserCommand command, CancellationToken cancellationToken)
     {
-        await _sender.Send(command, cancellationToken);
+        Result result = await _sender.Send(command, cancellationToken);
 
-        return Ok();
+        if (result.IsFailed)
+        {
+            return BadRequest(result.Errors[0]);
+        }
+
+        return NoContent();
     }
 
     [HttpPost("authorize")]
-    public async Task<IActionResult> Authorize(AuthorizeUserCommand command, CancellationToken cancellationToken)
+    public async Task<IActionResult> Authorize([FromBody] AuthorizeUserCommand command, CancellationToken cancellationToken)
     {
         bool result = await _sender.Send(command, cancellationToken);
 
@@ -42,7 +48,7 @@ public class UsersController(ISender sender) : ControllerBase
     }
 
     [HttpGet("{id}")]
-    public async Task<IActionResult> GetById(Guid id, CancellationToken cancellationToken)
+    public async Task<IActionResult> GetById([FromRoute] Guid id, CancellationToken cancellationToken)
     {
         var query = new GetUserByIdQuery(id);
 
@@ -57,7 +63,7 @@ public class UsersController(ISender sender) : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> Create(CreateUserCommand command, CancellationToken cancellationToken)
+    public async Task<IActionResult> Create([FromBody] CreateUserCommand command, CancellationToken cancellationToken)
     {
         var result = await _sender.Send(command, cancellationToken);
 
@@ -70,7 +76,7 @@ public class UsersController(ISender sender) : ControllerBase
     }
 
     [HttpPut]
-    public async Task<IActionResult> Update(UpdateUserCommand command, CancellationToken cancellationToken)
+    public async Task<IActionResult> Update([FromBody] UpdateUserCommand command, CancellationToken cancellationToken)
     {
         await _sender.Send(command, cancellationToken);
 
@@ -78,7 +84,7 @@ public class UsersController(ISender sender) : ControllerBase
     }
 
     [HttpDelete]
-    public async Task<IActionResult> Delete(DeleteUserCommand command, CancellationToken cancellationToken)
+    public async Task<IActionResult> Delete([FromBody] DeleteUserCommand command, CancellationToken cancellationToken)
     {
         await _sender.Send(command, cancellationToken);
 

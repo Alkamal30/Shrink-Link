@@ -1,5 +1,6 @@
-﻿using MediatR;
+﻿using FluentResults;
+using MediatR;
 
 namespace ShrinkLink.UserService.Application.Features.Users;
 
-public record RegisterUserCommand(string Email, string Password) : IRequest;
+public record RegisterUserCommand(string Email, string Password) : IRequest<Result>;

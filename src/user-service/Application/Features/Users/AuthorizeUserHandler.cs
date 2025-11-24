@@ -15,14 +15,20 @@ public class AuthorizeUserHandler(IUserServiceContext context, IPasswordHasher<U
     {
         var user = await _context.Users.FirstOrDefaultAsync(x =>
             x.Email.Equals(request.Email, StringComparison.InvariantCultureIgnoreCase), cancellationToken)
-            ?? throw new Exception("There is no user with this Email address");
+            ?? throw new Exception("Email or Password is incorrect");
 
         var result = _passwordHasher.VerifyHashedPassword(user, user.PasswordHash, request.Password);
 
-        return result switch
+        if (result is PasswordVerificationResult.SuccessRehashNeeded)
         {
-            PasswordVerificationResult.Success or PasswordVerificationResult.SuccessRehashNeeded => true,
-            _ => false,
-        };
+            user.PasswordHash = _passwordHasher.HashPassword(user, request.Password);
+
+            _context.Users.Update(user);
+            await _context.SaveChangesAsync(cancellationToken);
+
+            return true;
+        }
+
+        return result is PasswordVerificationResult.Success;
     }
 }
