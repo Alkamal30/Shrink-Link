@@ -47,6 +47,9 @@
 	<Compile Update="Application\Features\Users\DeleteUserHandler.cs">
 	  <DependentUpon>DeleteUserCommand.cs</DependentUpon>
 	</Compile>
+	<Compile Update="Application\Features\Users\RegisterUserHandler.cs">
+	  <DependentUpon>RegisterUserCommand.cs</DependentUpon>
+	</Compile>
   </ItemGroup>
 
 </Project>

@@ -1,7 +1,6 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using ShrinkLink.UserService.Application.Features.Users;
-using System.Threading.Tasks;
 
 namespace ShrinkLink.UserService.Presentation.Controllers;
 
@@ -10,6 +9,14 @@ namespace ShrinkLink.UserService.Presentation.Controllers;
 public class UsersController(ISender sender) : ControllerBase
 {
     private readonly ISender _sender = sender;
+
+    [HttpPost("register")]
+    public async Task<IActionResult> Register(RegisterUserCommand command, CancellationToken cancellationToken)
+    {
+        await _sender.Send(command, cancellationToken);
+
+        return Ok();
+    }
 
     [HttpGet]
     public async Task<IActionResult> GetAll(CancellationToken cancellationToken)
