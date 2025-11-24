@@ -1,11 +1,20 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.0.31903.59
+# Visual Studio Version 18
+VisualStudioVersion = 18.3.11218.70 d18.3
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LinkService", "src\link-service\LinkService.csproj", "{12CE7751-0C94-400C-985C-F72DCDA5E8E5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gateway", "src\Gateway\Gateway.csproj", "{607C1A75-7185-4FEE-9B25-6FBA09D5D669}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserService", "src\user-service\UserService.csproj", "{D54ECF1C-1756-4128-BBF9-F3C7DAF15DEC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Элементы решения", "Элементы решения", "{297940D6-D79F-4BAC-8C01-AC35BE0DEDFA}"
+	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
+		docker-compose.yml = docker-compose.yml
+		README.md = README.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,12 +50,23 @@ Global
 		{607C1A75-7185-4FEE-9B25-6FBA09D5D669}.Release|x64.Build.0 = Release|Any CPU
 		{607C1A75-7185-4FEE-9B25-6FBA09D5D669}.Release|x86.ActiveCfg = Release|Any CPU
 		{607C1A75-7185-4FEE-9B25-6FBA09D5D669}.Release|x86.Build.0 = Release|Any CPU
+		{D54ECF1C-1756-4128-BBF9-F3C7DAF15DEC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D54ECF1C-1756-4128-BBF9-F3C7DAF15DEC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D54ECF1C-1756-4128-BBF9-F3C7DAF15DEC}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{D54ECF1C-1756-4128-BBF9-F3C7DAF15DEC}.Debug|x64.Build.0 = Debug|Any CPU
+		{D54ECF1C-1756-4128-BBF9-F3C7DAF15DEC}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{D54ECF1C-1756-4128-BBF9-F3C7DAF15DEC}.Debug|x86.Build.0 = Debug|Any CPU
+		{D54ECF1C-1756-4128-BBF9-F3C7DAF15DEC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D54ECF1C-1756-4128-BBF9-F3C7DAF15DEC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D54ECF1C-1756-4128-BBF9-F3C7DAF15DEC}.Release|x64.ActiveCfg = Release|Any CPU
+		{D54ECF1C-1756-4128-BBF9-F3C7DAF15DEC}.Release|x64.Build.0 = Release|Any CPU
+		{D54ECF1C-1756-4128-BBF9-F3C7DAF15DEC}.Release|x86.ActiveCfg = Release|Any CPU
+		{D54ECF1C-1756-4128-BBF9-F3C7DAF15DEC}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{BE686022-4389-FBFB-8996-B4192BF22091} = {827E0CD3-B72D-47B6-A68D-7590B98EB39B}
-		{12CE7751-0C94-400C-985C-F72DCDA5E8E5} = {BE686022-4389-FBFB-8996-B4192BF22091}
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {1D8D0204-1A2E-455D-B761-8A170EA05B42}
 	EndGlobalSection
 EndGlobal

@@ -1,0 +1,52 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>ShrinkLink.UserService</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MediatR" Version="13.1.0" />
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.21" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.11" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.11">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.0.4" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="appsettings.Development.json">
+      <DependentUpon>appsettings.json</DependentUpon>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Application\Features\Users\GetUserResponse.cs">
+      <DependentUpon>GetUserByIdQuery.cs</DependentUpon>
+    </Compile>
+	<Compile Update="Application\Features\Users\GetUserByIdHandler.cs">
+	  <DependentUpon>GetUserByIdQuery.cs</DependentUpon>
+	</Compile>
+    <Compile Update="Application\Features\Users\GetUsersHandler.cs">
+      <DependentUpon>GetUsersQuery.cs</DependentUpon>
+    </Compile>
+	<Compile Update="Application\Features\Users\CreateUserHandler.cs">
+	  <DependentUpon>CreateUserCommand.cs</DependentUpon>
+	</Compile>
+	<Compile Update="Application\Features\Users\CreateUserResponse.cs">
+      <DependentUpon>CreateUserCommand.cs</DependentUpon>
+	</Compile>
+	<Compile Update="Application\Features\Users\UpdateUserHandler.cs">
+      <DependentUpon>UpdateUserCommand.cs</DependentUpon>
+	</Compile>
+	<Compile Update="Application\Features\Users\DeleteUserHandler.cs">
+	  <DependentUpon>DeleteUserCommand.cs</DependentUpon>
+	</Compile>
+  </ItemGroup>
+
+</Project>
