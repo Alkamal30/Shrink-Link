@@ -12,4 +12,11 @@ public class UserServiceContext(DbContextOptions<UserServiceContext> options) : 
     {
         return await base.SaveChangesAsync(cancellationToken);
     }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<User>()
+            .HasIndex(x => x.Email)
+            .IsUnique();
+    }
 }
