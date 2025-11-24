@@ -26,9 +26,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Application\Features\Users\GetUserByIdHandler.cs">
+    <Compile Update="Application\Features\Users\GetUserResponse.cs">
       <DependentUpon>GetUserByIdQuery.cs</DependentUpon>
     </Compile>
+	<Compile Update="Application\Features\Users\GetUserByIdHandler.cs">
+	  <DependentUpon>GetUserByIdQuery.cs</DependentUpon>
+	</Compile>
     <Compile Update="Application\Features\Users\GetUsersHandler.cs">
       <DependentUpon>GetUsersQuery.cs</DependentUpon>
     </Compile>
