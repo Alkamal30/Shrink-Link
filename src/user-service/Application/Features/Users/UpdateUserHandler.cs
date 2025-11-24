@@ -1,11 +1,14 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Identity;
 using ShrinkLink.UserService.Domain.Data;
+using ShrinkLink.UserService.Domain.Entities;
 
 namespace ShrinkLink.UserService.Application.Features.Users;
 
-public class UpdateUserHandler(IUserServiceContext context) : IRequestHandler<UpdateUserCommand>
+public class UpdateUserHandler(IUserServiceContext context, IPasswordHasher<User> passwordHasher) : IRequestHandler<UpdateUserCommand>
 {
     private readonly IUserServiceContext _context = context;
+    private readonly IPasswordHasher<User> _passwordHasher = passwordHasher;
 
     public async Task Handle(UpdateUserCommand request, CancellationToken cancellationToken)
     {
@@ -13,7 +16,8 @@ public class UpdateUserHandler(IUserServiceContext context) : IRequestHandler<Up
             ?? throw new Exception($"User {request.Id} is not found!");
 
         user.Email = request.Email ?? user.Email;
-        user.Password = request.Password ?? user.Password;
+        user.PasswordHash = request.Password is null ? user.PasswordHash
+            : _passwordHasher.HashPassword(user, request.Password);
 
         _context.Users.Update(user);
         await _context.SaveChangesAsync(cancellationToken);

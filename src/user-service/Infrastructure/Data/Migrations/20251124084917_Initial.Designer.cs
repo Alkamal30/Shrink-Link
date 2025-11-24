@@ -12,7 +12,7 @@ using ShrinkLink.UserService.Infrastructure.Data;
 namespace ShrinkLink.UserService.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(UserServiceContext))]
-    [Migration("20251123155449_Initial")]
+    [Migration("20251124084917_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -35,7 +35,7 @@ namespace ShrinkLink.UserService.Infrastructure.Data.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("Password")
+                    b.Property<string>("PasswordHash")
                         .IsRequired()
                         .HasColumnType("text");
 
