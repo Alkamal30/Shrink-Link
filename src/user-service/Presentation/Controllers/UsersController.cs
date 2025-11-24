@@ -18,6 +18,19 @@ public class UsersController(ISender sender) : ControllerBase
         return Ok();
     }
 
+    [HttpPost("authorize")]
+    public async Task<IActionResult> Authorize(AuthorizeUserCommand command, CancellationToken cancellationToken)
+    {
+        bool result = await _sender.Send(command, cancellationToken);
+
+        if(!result)
+        {
+            return BadRequest();
+        }
+
+        return Ok();
+    }
+
     [HttpGet]
     public async Task<IActionResult> GetAll(CancellationToken cancellationToken)
     {

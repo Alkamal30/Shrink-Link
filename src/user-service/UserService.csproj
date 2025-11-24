@@ -50,6 +50,9 @@
 	<Compile Update="Application\Features\Users\RegisterUserHandler.cs">
 	  <DependentUpon>RegisterUserCommand.cs</DependentUpon>
 	</Compile>
+	<Compile Update="Application\Features\Users\AuthorizeUserHandler.cs">
+	  <DependentUpon>AuthorizeUserCommand.cs</DependentUpon>
+	</Compile>
   </ItemGroup>
 
 </Project>
