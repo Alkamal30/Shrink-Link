@@ -19,6 +19,14 @@ var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
 {
+    // TODO: Find a better solution and remove this code
+    using var scope = app.Services.CreateScope();
+    var dbContext = scope.ServiceProvider.GetRequiredService<UserServiceContext>();
+    if (dbContext.Database.GetPendingMigrations().Any())
+    {
+        await dbContext.Database.MigrateAsync();
+    }
+
     app.UseSwagger();
     app.UseSwaggerUI();
 }
