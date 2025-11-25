@@ -7,7 +7,9 @@ namespace ShrinkLink.UserService.Infrastructure.Data;
 public class UserServiceContext(DbContextOptions<UserServiceContext> options) : DbContext(options), IUserServiceContext
 {
     public DbSet<User> Users => Set<User>();
-    
+
+    public DbSet<Role> Roles => Set<Role>();
+
     public new async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     {
         return await base.SaveChangesAsync(cancellationToken);
@@ -18,5 +20,11 @@ public class UserServiceContext(DbContextOptions<UserServiceContext> options) : 
         modelBuilder.Entity<User>()
             .HasIndex(x => x.Email)
             .IsUnique();
+
+        modelBuilder.Entity<Role>()
+            .HasData(
+                new Role { Id = 1, Name = "User" },
+                new Role { Id = 2, Name = "Admin" }
+            );
     }
 }
