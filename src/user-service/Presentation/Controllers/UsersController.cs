@@ -1,17 +1,21 @@
 using FluentResults;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ShrinkLink.UserService.Application.Features.Users;
+using ShrinkLink.UserService.Domain.Enums;
 
 namespace ShrinkLink.UserService.Presentation.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
+[Authorize(Roles = nameof(UserRoleEnum.Admin))]
 public class UsersController(ISender sender) : ControllerBase
 {
     private readonly ISender _sender = sender;
 
-    [HttpPost("register")]
+    [HttpPost(nameof(Register))]
+    [AllowAnonymous]
     public async Task<IActionResult> Register([FromBody] RegisterUserCommand command, CancellationToken cancellationToken)
     {
         if (!ModelState.IsValid)
@@ -29,7 +33,8 @@ public class UsersController(ISender sender) : ControllerBase
         return NoContent();
     }
 
-    [HttpPost("authorize")]
+    [HttpPost(nameof(Authorize))]
+    [AllowAnonymous]
     public async Task<IActionResult> Authorize([FromBody] AuthorizeUserCommand command, CancellationToken cancellationToken)
     {
         if (!ModelState.IsValid)
