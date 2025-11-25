@@ -14,6 +14,11 @@ public class UsersController(ISender sender) : ControllerBase
     [HttpPost("register")]
     public async Task<IActionResult> Register([FromBody] RegisterUserCommand command, CancellationToken cancellationToken)
     {
+        if (!ModelState.IsValid)
+        {
+            return ValidationProblem(ModelState);
+        }
+
         Result result = await _sender.Send(command, cancellationToken);
 
         if (result.IsFailed)
@@ -27,6 +32,11 @@ public class UsersController(ISender sender) : ControllerBase
     [HttpPost("authorize")]
     public async Task<IActionResult> Authorize([FromBody] AuthorizeUserCommand command, CancellationToken cancellationToken)
     {
+        if (!ModelState.IsValid)
+        {
+            return ValidationProblem(ModelState);
+        }
+
         Result result = await _sender.Send(command, cancellationToken);
 
         if(result.IsFailed)
