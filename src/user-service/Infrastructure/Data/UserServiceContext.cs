@@ -21,6 +21,11 @@ public class UserServiceContext(DbContextOptions<UserServiceContext> options) : 
             .HasIndex(x => x.Email)
             .IsUnique();
 
+        modelBuilder.Entity<User>()
+            .HasMany(x => x.Roles)
+            .WithMany(x => x.Users)
+            .UsingEntity(x => x.ToTable("UserRoleMap"));
+
         modelBuilder.Entity<Role>()
             .HasData(
                 new Role { Id = 1, Name = "User" },
