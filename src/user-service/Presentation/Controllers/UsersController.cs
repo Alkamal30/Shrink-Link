@@ -37,14 +37,14 @@ public class UsersController(ISender sender) : ControllerBase
             return ValidationProblem(ModelState);
         }
 
-        Result result = await _sender.Send(command, cancellationToken);
+        Result<string> result = await _sender.Send(command, cancellationToken);
 
         if(result.IsFailed)
         {
             return Unauthorized(result.Errors.Select(x => x.Message));
         }
 
-        return Ok();
+        return Ok(new { Token = result.Value });
     }
 
     [HttpGet]
