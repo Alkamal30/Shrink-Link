@@ -18,7 +18,7 @@ public class UsersController(ISender sender) : ControllerBase
 
         if (result.IsFailed)
         {
-            return BadRequest(result.Errors[0]);
+            return BadRequest(result.Errors.Select(x => x.Message));
         }
 
         return NoContent();
@@ -27,11 +27,11 @@ public class UsersController(ISender sender) : ControllerBase
     [HttpPost("authorize")]
     public async Task<IActionResult> Authorize([FromBody] AuthorizeUserCommand command, CancellationToken cancellationToken)
     {
-        bool result = await _sender.Send(command, cancellationToken);
+        Result result = await _sender.Send(command, cancellationToken);
 
-        if(!result)
+        if(result.IsFailed)
         {
-            return BadRequest();
+            return Unauthorized(result.Errors.Select(x => x.Message));
         }
 
         return Ok();

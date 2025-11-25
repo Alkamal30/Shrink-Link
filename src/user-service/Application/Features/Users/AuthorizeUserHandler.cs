@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using FluentResults;
+using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using ShrinkLink.UserService.Domain.Data;
@@ -6,18 +7,29 @@ using ShrinkLink.UserService.Domain.Entities;
 
 namespace ShrinkLink.UserService.Application.Features.Users;
 
-public class AuthorizeUserHandler(IUserServiceContext context, IPasswordHasher<User> passwordHasher) : IRequestHandler<AuthorizeUserCommand, bool>
+public class AuthorizeUserHandler(IUserServiceContext context, IPasswordHasher<User> passwordHasher) : IRequestHandler<AuthorizeUserCommand, Result>
 {
+    private static string IncorrectDataMessage => "Email or Password are incorrect.";
+
     private readonly IUserServiceContext _context = context;
     private readonly IPasswordHasher<User> _passwordHasher = passwordHasher;
 
-    public async Task<bool> Handle(AuthorizeUserCommand request, CancellationToken cancellationToken)
+    public async Task<Result> Handle(AuthorizeUserCommand request, CancellationToken cancellationToken)
     {
-        var user = await _context.Users.FirstOrDefaultAsync(x =>
-            x.Email.Equals(request.Email, StringComparison.InvariantCultureIgnoreCase), cancellationToken)
-            ?? throw new Exception("Email or Password is incorrect");
+        var normalizedEmail = request.Email.Trim().ToLowerInvariant();
+        var user = await _context.Users.FirstOrDefaultAsync(x => x.Email == normalizedEmail, cancellationToken);
+
+        if (user is null)
+        {
+            return Result.Fail(IncorrectDataMessage);
+        }
 
         var result = _passwordHasher.VerifyHashedPassword(user, user.PasswordHash, request.Password);
+
+        if (result is PasswordVerificationResult.Failed)
+        {
+            return Result.Fail(IncorrectDataMessage);
+        }
 
         if (result is PasswordVerificationResult.SuccessRehashNeeded)
         {
@@ -25,10 +37,8 @@ public class AuthorizeUserHandler(IUserServiceContext context, IPasswordHasher<U
 
             _context.Users.Update(user);
             await _context.SaveChangesAsync(cancellationToken);
-
-            return true;
         }
 
-        return result is PasswordVerificationResult.Success;
+        return Result.Ok();
     }
 }

@@ -19,7 +19,7 @@ public class RegisterUserHandler(IUserServiceContext context, IPasswordHasher<Us
 
         if (isExist)
         {
-            return Result.Fail("User with this Email alredy exists.");
+            return Result.Fail("User with this Email address alredy exists.");
         }
 
         var newUser = new User
