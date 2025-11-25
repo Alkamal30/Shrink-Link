@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using ShrinkLink.UserService.Domain.Data;
 using ShrinkLink.UserService.Domain.Entities;
+using ShrinkLink.UserService.Domain.Enums;
 
 namespace ShrinkLink.UserService.Infrastructure.Data;
 
@@ -28,8 +29,8 @@ public class UserServiceContext(DbContextOptions<UserServiceContext> options) : 
 
         modelBuilder.Entity<Role>()
             .HasData(
-                new Role { Id = 1, Name = "User" },
-                new Role { Id = 2, Name = "Admin" }
+                new Role { Id = 1, Name = UserRoleEnum.User.ToString() },
+                new Role { Id = 2, Name = UserRoleEnum.Admin.ToString() }
             );
     }
 }
