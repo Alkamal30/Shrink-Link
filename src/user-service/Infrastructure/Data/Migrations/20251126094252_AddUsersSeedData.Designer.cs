@@ -12,8 +12,8 @@ using ShrinkLink.UserService.Infrastructure.Data;
 namespace ShrinkLink.UserService.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(UserServiceContext))]
-    [Migration("20251125112919_AddUserToRolesM2MRelation")]
-    partial class AddUserToRolesM2MRelation
+    [Migration("20251126094252_AddUsersSeedData")]
+    partial class AddUsersSeedData
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,21 +24,6 @@ namespace ShrinkLink.UserService.Infrastructure.Data.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
-
-            modelBuilder.Entity("RoleUser", b =>
-                {
-                    b.Property<int>("RolesId")
-                        .HasColumnType("integer");
-
-                    b.Property<Guid>("UsersId")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("RolesId", "UsersId");
-
-                    b.HasIndex("UsersId");
-
-                    b.ToTable("UserRoleMap", (string)null);
-                });
 
             modelBuilder.Entity("ShrinkLink.UserService.Domain.Entities.Role", b =>
                 {
@@ -89,21 +74,71 @@ namespace ShrinkLink.UserService.Infrastructure.Data.Migrations
                         .IsUnique();
 
                     b.ToTable("Users");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("53f72fc2-cbda-43fe-90b9-45ed571e4185"),
+                            Email = "user@user.com",
+                            PasswordHash = "AQAAAAIAAYagAAAAEEl9XcH2utjEVsSK57jhoxrThtc2z0kQ1hf/0a/E7qL+HO/7K6Bkav3KfSJOeA3WHw=="
+                        },
+                        new
+                        {
+                            Id = new Guid("320c16ce-5e1c-40d6-83bb-53c7342ca773"),
+                            Email = "admin@admin.com",
+                            PasswordHash = "AQAAAAIAAYagAAAAEDliq5Roxa0gkptym2OdPjNXO4oKQX8XFRjXeN+2wUUjzOE4Uo3swfvqZwljE/In/w=="
+                        });
                 });
 
-            modelBuilder.Entity("RoleUser", b =>
+            modelBuilder.Entity("ShrinkLink.UserService.Domain.Entities.UserRoleMap", b =>
                 {
-                    b.HasOne("ShrinkLink.UserService.Domain.Entities.Role", null)
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("RoleId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("UserId", "RoleId");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("UserRoleMap");
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = new Guid("53f72fc2-cbda-43fe-90b9-45ed571e4185"),
+                            RoleId = 1
+                        },
+                        new
+                        {
+                            UserId = new Guid("320c16ce-5e1c-40d6-83bb-53c7342ca773"),
+                            RoleId = 1
+                        },
+                        new
+                        {
+                            UserId = new Guid("320c16ce-5e1c-40d6-83bb-53c7342ca773"),
+                            RoleId = 2
+                        });
+                });
+
+            modelBuilder.Entity("ShrinkLink.UserService.Domain.Entities.UserRoleMap", b =>
+                {
+                    b.HasOne("ShrinkLink.UserService.Domain.Entities.Role", "Role")
                         .WithMany()
-                        .HasForeignKey("RolesId")
+                        .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ShrinkLink.UserService.Domain.Entities.User", null)
+                    b.HasOne("ShrinkLink.UserService.Domain.Entities.User", "User")
                         .WithMany()
-                        .HasForeignKey("UsersId")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Role");
+
+                    b.Navigation("User");
                 });
 #pragma warning restore 612, 618
         }
