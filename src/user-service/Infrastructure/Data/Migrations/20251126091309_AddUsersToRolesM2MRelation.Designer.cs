@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using ShrinkLink.UserService.Infrastructure.Data;
@@ -11,9 +12,11 @@ using ShrinkLink.UserService.Infrastructure.Data;
 namespace ShrinkLink.UserService.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(UserServiceContext))]
-    partial class UserServiceContextModelSnapshot : ModelSnapshot
+    [Migration("20251126091309_AddUsersToRolesM2MRelation")]
+    partial class AddUsersToRolesM2MRelation
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -71,20 +74,6 @@ namespace ShrinkLink.UserService.Infrastructure.Data.Migrations
                         .IsUnique();
 
                     b.ToTable("Users");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("53f72fc2-cbda-43fe-90b9-45ed571e4185"),
-                            Email = "user@user.com",
-                            PasswordHash = "AQAAAAIAAYagAAAAEEl9XcH2utjEVsSK57jhoxrThtc2z0kQ1hf/0a/E7qL+HO/7K6Bkav3KfSJOeA3WHw=="
-                        },
-                        new
-                        {
-                            Id = new Guid("320c16ce-5e1c-40d6-83bb-53c7342ca773"),
-                            Email = "admin@admin.com",
-                            PasswordHash = "AQAAAAIAAYagAAAAEDliq5Roxa0gkptym2OdPjNXO4oKQX8XFRjXeN+2wUUjzOE4Uo3swfvqZwljE/In/w=="
-                        });
                 });
 
             modelBuilder.Entity("ShrinkLink.UserService.Domain.Entities.UserRoleMap", b =>
@@ -100,23 +89,6 @@ namespace ShrinkLink.UserService.Infrastructure.Data.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("UserRoleMap");
-
-                    b.HasData(
-                        new
-                        {
-                            UserId = new Guid("53f72fc2-cbda-43fe-90b9-45ed571e4185"),
-                            RoleId = 1
-                        },
-                        new
-                        {
-                            UserId = new Guid("320c16ce-5e1c-40d6-83bb-53c7342ca773"),
-                            RoleId = 1
-                        },
-                        new
-                        {
-                            UserId = new Guid("320c16ce-5e1c-40d6-83bb-53c7342ca773"),
-                            RoleId = 2
-                        });
                 });
 
             modelBuilder.Entity("ShrinkLink.UserService.Domain.Entities.UserRoleMap", b =>

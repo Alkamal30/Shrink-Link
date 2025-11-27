@@ -13,4 +13,4 @@ public record AuthorizeUserCommand(
     [MinLength(8)]
     [MaxLength(128)]
     string Password
-) : IRequest<Result>;
+) : IRequest<Result<string>>;
