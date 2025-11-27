@@ -1,6 +1,7 @@
 import { useCallback, useState } from 'react'
 import { shrinkLink } from './services/linkService';
 import './App.css'
+import Cursor from './components/Cursor';
 
 function App() {
   const [value, setValue] = useState("");
@@ -32,6 +33,7 @@ function App() {
 
   return (
     <>
+      <Cursor />
       <div>
         <h1>Shrink link in one click!</h1>
       </div>
