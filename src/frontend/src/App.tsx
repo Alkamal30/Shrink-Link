@@ -1,34 +1,39 @@
-import './App.css'
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { Container, createTheme, ThemeProvider } from '@mui/material';
 import Home from './components/Home';
 import Register from './components/Register';
 import Login from './components/Login';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Header from './components/Header';
-import { useState } from 'react';
+import './App.css'
 import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 
-
 function App() {
-    const [open, setOpen] = useState(false);
+    const theme = createTheme({
 
-    const toggleDrawer = (newOpen: boolean) => () => {
-        setOpen(newOpen);
-    };
+    });
 
     return (
-        <BrowserRouter>
-            <Header />
-            <main className='content'>
-                <Routes>
-                    <Route path='/' element={<Home />} />
-                    <Route path='/login' element={<Login />} />
-                    <Route path='/register' element={<Register />} />
-                </Routes>
-            </main>
-        </BrowserRouter>
+        <ThemeProvider theme={theme}>
+            <BrowserRouter>
+                <Header />
+                <Container sx={{
+                    width: '100%',
+                    height: '100%',
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center'
+                }}>
+                    <Routes>
+                        <Route path='/' element={<Home />} />
+                        <Route path='/login' element={<Login />} />
+                        <Route path='/register' element={<Register />} />
+                    </Routes>
+                </Container>
+            </BrowserRouter>
+        </ThemeProvider>
     )
 }
 
