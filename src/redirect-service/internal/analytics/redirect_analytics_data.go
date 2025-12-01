@@ -1,14 +1,13 @@
 package analytics
 
 import (
-	"net"
 	"time"
 )
 
 type RedirectAnalyticsData struct {
 	ShortCode string
 	Timestamp time.Time
-	Ip        net.IP
+	Ip        string
 	UserAgent string
 	Referer   string
 	Language  string
