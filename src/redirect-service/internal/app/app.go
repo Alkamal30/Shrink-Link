@@ -9,6 +9,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/redis/go-redis/v9"
+	"github.com/segmentio/kafka-go"
 )
 
 func Run() {
@@ -25,10 +26,16 @@ func Run() {
 
 	redisClient := createRedisClient(cfg.Redis)
 
+	kafkaWriter := kafka.NewWriter(kafka.WriterConfig{
+		Brokers: cfg.Kafka.Brokers,
+		Topic:   cfg.Kafka.RedirectAnalyticsTopic,
+	})
+	defer kafkaWriter.Close()
+
 	engine := gin.Default()
 
 	linkClient := contracts.NewLinkServiceClient(conn)
-	redirectHandler := handlers.NewRedirectHandler(linkClient, redisClient)
+	redirectHandler := handlers.NewRedirectHandler(cfg, linkClient, redisClient, kafkaWriter)
 
 	api := engine.Group("/api")
 	{
