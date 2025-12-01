@@ -71,6 +71,9 @@ func (h *RedirectHandler) Redirect(c *gin.Context) {
 
 	if statusCode == http.StatusFound {
 		h.sendAnalyticsData(c)
+
+		c.Redirect(statusCode, response)
+		return
 	}
 
 	c.JSON(statusCode, response)
