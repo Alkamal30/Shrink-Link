@@ -4,7 +4,7 @@
 
 set -e
 
-source .env
+source .env.dev
 
 echo "===== Creating Kafka topic ====="
 docker exec -it $KAFKA_CONTAINER_NAME \

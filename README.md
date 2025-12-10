@@ -14,7 +14,9 @@ git clone https://github.com/Alkamal30/Shrink-Link.git
 protoc --go_out=./src/redirect-service/internal/contracts --go-grpc_out=./src/redirect-service/internal/contracts ./src/redirect-service/internal/contracts/*.proto
 ```
 
-3. Run
+3. Configure if necessary (`./scripts/.env`)
+
+4. Run
 ```shell
 docker compose up -d
 ```
@@ -70,9 +72,9 @@ docker run -d \
     clickhouse/clickhouse-server
 ```
 
-6. Run `init-host-databases.sh` script
+6. Run `init-databases-host.sh` script
 ```shell
-./scripts/init-host-databases.sh
+./scripts/init-databases-host.sh
 ```
 
 7. Make development certificates trusted
