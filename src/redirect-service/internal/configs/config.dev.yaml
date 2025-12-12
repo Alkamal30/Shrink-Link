@@ -6,3 +6,7 @@ grpc:
 redis:
   address: "localhost:6379"
   password: ""
+kafka:
+  brokers:
+    - "localhost:29092"
+  redirectAnalyticsTopic: "redirect-analytics-topic"

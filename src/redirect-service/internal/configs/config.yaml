@@ -6,3 +6,6 @@ grpc:
 redis:
   address: ""
   password: ""
+kafka:
+  brokers: []
+  redirectAnalyticsTopic: ""
