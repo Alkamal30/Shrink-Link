@@ -11,9 +11,12 @@ namespace ShrinkLink.UserService.Presentation.Controllers;
 [ApiController]
 [Route("api/[controller]")]
 [Authorize(Roles = nameof(UserRoleEnum.Admin))]
-public class UsersController(ISender sender) : ControllerBase
+public class UsersController(ISender sender, IWebHostEnvironment environment) : ControllerBase
 {
+    private static readonly string AccessTokenCookiesKey = "access_token";
+
     private readonly ISender _sender = sender;
+    private readonly IWebHostEnvironment _environment = environment;
 
     [HttpPost(nameof(Register))]
     [AllowAnonymous]
@@ -49,6 +52,12 @@ public class UsersController(ISender sender) : ControllerBase
         {
             return Unauthorized(result.Errors.Select(x => x.Message));
         }
+
+        Response.Cookies.Append(
+            AccessTokenCookiesKey,
+            result.Value,
+            BuildAuthCookieOptions()
+        );
 
         return Ok(new { Token = result.Value });
     }
@@ -122,5 +131,19 @@ public class UsersController(ISender sender) : ControllerBase
         await _sender.Send(command, cancellationToken);
 
         return NoContent();
+    }
+
+    private CookieOptions BuildAuthCookieOptions()
+    {
+        bool isDevelopment = _environment.IsDevelopment();
+
+        return new CookieOptions
+        {
+            HttpOnly = true,
+            Path = "/",
+            Secure = !isDevelopment,
+            SameSite = isDevelopment ? SameSiteMode.Lax : SameSiteMode.None,
+            Expires = DateTime.UtcNow.AddMinutes(30),
+        };
     }
 }
