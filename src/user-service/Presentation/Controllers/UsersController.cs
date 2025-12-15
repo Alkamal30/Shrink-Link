@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ShrinkLink.UserService.Application.Features.Users;
 using ShrinkLink.UserService.Domain.Enums;
+using System.Security.Claims;
 
 namespace ShrinkLink.UserService.Presentation.Controllers;
 
@@ -50,6 +51,23 @@ public class UsersController(ISender sender) : ControllerBase
         }
 
         return Ok(new { Token = result.Value });
+    }
+
+    [HttpGet(nameof(Me))]
+    [AllowAnonymous]
+    public async Task<IActionResult> Me(CancellationToken cancellationToken)
+    {
+        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        var response = new MeUserResponse();
+        
+        if(Guid.TryParse(userId, out var userIdGuid))
+        {
+            var query = new MeUserQuery(userIdGuid);
+
+            response = await _sender.Send(query, cancellationToken);
+        }
+
+        return Ok(response);
     }
 
     [HttpGet]
