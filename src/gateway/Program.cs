@@ -12,7 +12,8 @@ builder.Services.AddCors(options =>
             policy
                 .WithOrigins(builder.Configuration.GetValue<string>("FrontendUrl") ?? string.Empty)
                 .AllowAnyHeader()
-                .AllowAnyMethod();
+                .AllowAnyMethod()
+                .AllowCredentials();
         });
 });
 
@@ -30,6 +31,14 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidIssuer = builder.Configuration["JwtSettings:Issuer"]!,
             ValidateAudience = true,
             ValidAudience = builder.Configuration["JwtSettings:Audience"]!,
+        };
+        options.Events = new JwtBearerEvents
+        {
+            OnMessageReceived = context =>
+            {
+                context.Token = context.Request.Cookies["access_token"];
+                return Task.CompletedTask;
+            }
         };
     });
 
