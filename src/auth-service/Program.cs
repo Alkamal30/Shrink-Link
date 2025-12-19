@@ -5,6 +5,7 @@ using ShrinkLink.AuthService.Application.Helpers;
 using ShrinkLink.AuthService.Domain.Data;
 using ShrinkLink.AuthService.Infrastructure.Data;
 using ShrinkLink.AuthService.Infrastructure.Data.Entities;
+using ShrinkLink.AuthService.Presentation.Controllers;
 using static OpenIddict.Abstractions.OpenIddictConstants;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,9 +14,7 @@ builder.Services.AddDbContext<AuthServiceDbContext>(options =>
 {
     options.UseNpgsql(builder.Configuration.GetConnectionString("Default"));
     options.UseOpenIddict();
-});
-builder.Services.AddScoped<IAuthServiceDbContext>(provider
-    => provider.GetRequiredService<AuthServiceDbContext>());
+}).AddScoped<IAuthServiceDbContext>(provider => provider.GetRequiredService<AuthServiceDbContext>());
 
 builder.Services.AddIdentityCore<Identity>(o => o.User.RequireUniqueEmail = true)
     .AddRoles<IdentityRole<Guid>>()
@@ -26,8 +25,8 @@ builder.Services.AddIdentityCore<Identity>(o => o.User.RequireUniqueEmail = true
 builder.Services.AddAuthentication(IdentityConstants.ApplicationScheme)
     .AddCookie(IdentityConstants.ApplicationScheme, options =>
     {
-        options.LoginPath =  "/api/auth/login";
-        options.LogoutPath = "/api/auth/logout";
+        options.LoginPath =  $"/api/auth/{nameof(AuthController.SignIn)}";
+        options.LogoutPath = $"/api/auth/{nameof(AuthController.SignOut)}";
     });
 builder.Services.AddAuthorization();
 
@@ -46,8 +45,9 @@ builder.Services.AddOpenIddict()
             )
         );
 
-        options.SetAuthorizationEndpointUris("connect/authorize")
-            .SetTokenEndpointUris("connect/token")
+        options.SetAuthorizationEndpointUris("/api/auth/connect/authorize")
+            .SetTokenEndpointUris("/api/auth/connect/token")
+            .SetEndSessionEndpointUris($"/api/auth/{nameof(AuthController.LogOut)}")
             .AllowAuthorizationCodeFlow()
             .AllowRefreshTokenFlow()
             .RequireProofKeyForCodeExchange()
@@ -60,7 +60,8 @@ builder.Services.AddOpenIddict()
 
         var aspNetCoreBuilder = options.UseAspNetCore()
             .EnableAuthorizationEndpointPassthrough()
-            .EnableTokenEndpointPassthrough();
+            .EnableTokenEndpointPassthrough()
+            .EnableEndSessionEndpointPassthrough();
 
         if (builder.Environment.IsDevelopment())
         {
@@ -75,6 +76,7 @@ builder.Services.AddOpenIddict()
         }
     });
 
+builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(Program).Assembly));
 builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 
