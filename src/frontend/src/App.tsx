@@ -9,7 +9,7 @@ import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
-
+import AuthCallback from './components/AuthCallback';
 function App() {
     const theme = createTheme({
 
@@ -30,6 +30,7 @@ function App() {
                         <Route path='/' element={<Home />} />
                         <Route path='/login' element={<Login />} />
                         <Route path='/register' element={<Register />} />
+                        <Route path='/auth/callback' element={<AuthCallback />} />
                     </Routes>
                 </Container>
             </BrowserRouter>
