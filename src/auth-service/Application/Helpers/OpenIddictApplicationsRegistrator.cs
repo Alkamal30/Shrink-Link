@@ -5,35 +5,36 @@ namespace ShrinkLink.AuthService.Application.Helpers;
 
 public static class OpenIddictApplicationsRegistrator
 {
-    private const string SpaClientId = "spa";
-
     public static void RegisterApplications(WebApplication app)
     {
-        RegisterSpaClientApplication(app);
+        RegisterWebBffClientApplication(app);
     }
 
-    private static void RegisterSpaClientApplication(WebApplication app)
+    private static void RegisterWebBffClientApplication(WebApplication app)
     {
         app.Lifetime.ApplicationStarted.Register(async () =>
         {
             using var scope = app.Services.CreateScope();
             var manager = scope.ServiceProvider.GetRequiredService<IOpenIddictApplicationManager>();
+            var clientId = app.Configuration["Authentication:WebBffClientId"]
+                ?? throw new InvalidOperationException("Web BFF Client Id is not defined.");
 
-            if (await manager.FindByClientIdAsync(SpaClientId, CancellationToken.None) is null)
+            if (await manager.FindByClientIdAsync(clientId, CancellationToken.None) is null)
             {
                 await manager.CreateAsync(new OpenIddictApplicationDescriptor
                 {
-                    ClientId = SpaClientId,
-                    ClientType = ClientTypes.Public,
-                    DisplayName = "Web SPA",
+                    ClientId = clientId,
+                    ClientSecret = app.Configuration["Authentication:WebBffClientSecret"],
+                    ClientType = ClientTypes.Confidential,
+                    DisplayName = "Web BFF",
                     ApplicationType = ApplicationTypes.Web,
                     RedirectUris =
                     {
-                        new Uri("http://localhost:5173/auth/callback")
+                        new Uri("http://localhost:5001/signin-oidc")
                     },
                     PostLogoutRedirectUris =
                     {
-                        new Uri("http://localhost:5173/")
+                        new Uri("http://localhost:5001/")
                     },
                     Permissions =
                     {

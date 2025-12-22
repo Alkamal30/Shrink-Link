@@ -81,17 +81,17 @@ builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 
 // TODO: Check if it is safe
-builder.Services.Configure<ForwardedHeadersOptions>(options =>
-{
-    options.ForwardedHeaders =
-        ForwardedHeaders.XForwardedFor |
-        ForwardedHeaders.XForwardedProto |
-        ForwardedHeaders.XForwardedHost;
-});
+//builder.Services.Configure<ForwardedHeadersOptions>(options =>
+//{
+//    options.ForwardedHeaders =
+//        ForwardedHeaders.XForwardedFor |
+//        ForwardedHeaders.XForwardedProto |
+//        ForwardedHeaders.XForwardedHost;
+//});
 
 var app = builder.Build();
 
-app.UseForwardedHeaders();
+//app.UseForwardedHeaders();
 
 app.UseRouting();
 
