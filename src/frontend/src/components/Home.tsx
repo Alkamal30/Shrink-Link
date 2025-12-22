@@ -16,7 +16,7 @@ const Home: React.FC = () => {
     const [result, setResult] = useState("");
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
-    const auth = useAuth();
+    // const auth = useAuth();
 
     const handleClick = useCallback(async () => {
         const trimmedValue = value.trim();
@@ -41,15 +41,26 @@ const Home: React.FC = () => {
     }, [value]);
 
     const checkAuth = async () => {
-        const res = await fetch('http://localhost:5001/api/me', {
-            method: 'GET',
-            credentials: 'include',
+        const res = await fetch('http://localhost:5001/auth/me', {
+            method: 'GET'
         });
 
         const resJson = await res.json();
 
         console.log(resJson);
         alert(resJson.isAuthenticated ? 'Authenticated' : 'Not authenticated');
+    };
+
+    const handleLogin = async () => {
+        window.location.assign('http://localhost:5001/auth/SignIn');
+    };
+
+    const handleLogOut = async () => {
+        const res = await fetch('http://localhost:5001/auth/LogOut', {
+            method: 'POST'
+        });
+
+        alert(res.ok ? 'Logged out' : 'Logout failed');
     };
 
     return (
@@ -72,19 +83,22 @@ const Home: React.FC = () => {
                 </Typography>
             </Box>
 
-            <div>
-                {!auth.isAuthenticated ? (
+            <div style={{display: "flex", flexDirection: "column", gap: "8px"}}>
+                {/* {!auth.isAuthenticated ? (
                     <button onClick={() => auth.signinRedirect()}>Login</button>
                 ) : (
                     <>
                         <div>Hello, {auth.user?.profile?.name ?? "user"}</div>
                         <button onClick={() => auth.signoutSilent()}>Logout</button>
                     </>
-                )}
+                )} */}
+
+                <button onClick={() => handleLogin()}>Login</button>
+                <button onClick={() => handleLogOut()}>Log Out</button>
             </div>
 
             <div>
-                <button onClick={() => console.log(auth.isAuthenticated)}>Check</button>
+                <button onClick={() => checkAuth()}>Check</button>
             </div>
 
             {/* Инпут и кнопка */}

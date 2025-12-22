@@ -14,8 +14,6 @@ const oidcConfig = {
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <AuthProvider {...oidcConfig}>
         <App />
-    </AuthProvider>
   </StrictMode>,
 )
