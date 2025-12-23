@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using ShrinkLink.AuthService.Application.Helpers;

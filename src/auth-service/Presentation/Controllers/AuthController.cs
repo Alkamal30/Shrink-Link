@@ -1,20 +1,16 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
 using OpenIddict.Abstractions;
 using OpenIddict.Server.AspNetCore;
-using ShrinkLink.AuthService.Application.Extensions;
 using ShrinkLink.AuthService.Application.Features.Auth.Authorize;
 using ShrinkLink.AuthService.Application.Features.Auth.Exchange;
 using ShrinkLink.AuthService.Application.Features.Auth.LogOut;
 using ShrinkLink.AuthService.Application.Features.Auth.SignIn;
 using ShrinkLink.AuthService.Application.Features.Auth.SignUp;
 using ShrinkLink.AuthService.Infrastructure.Data.Entities;
-using System.ComponentModel.DataAnnotations;
 using System.Security.Claims;
 using static OpenIddict.Abstractions.OpenIddictConstants;
 

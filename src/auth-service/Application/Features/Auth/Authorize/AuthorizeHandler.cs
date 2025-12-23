@@ -1,11 +1,8 @@
 ﻿using FluentResults;
 using MediatR;
-using Microsoft.AspNetCore;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using OpenIddict.Abstractions;
-using OpenIddict.Server.AspNetCore;
 using ShrinkLink.AuthService.Infrastructure.Data.Entities;
 using System.Security.Claims;
 using static OpenIddict.Abstractions.OpenIddictConstants;
