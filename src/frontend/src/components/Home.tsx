@@ -18,6 +18,19 @@ const Home: React.FC = () => {
     const [error, setError] = useState("");
     // const auth = useAuth();
 
+    const initCsrf = async () => {
+        const res = await fetch('http://localhost:5001/bff/csrf', {
+            method: 'GET',
+            credentials: 'include'
+        });
+        const data = await res.json();
+
+        csrfToken = data.token;
+    }
+
+    let csrfToken: string | null = null;
+    initCsrf();
+
     const handleClick = useCallback(async () => {
         const trimmedValue = value.trim();
 
@@ -57,7 +70,11 @@ const Home: React.FC = () => {
 
     const handleLogOut = async () => {
         const res = await fetch('http://localhost:5001/auth/LogOut', {
-            method: 'POST'
+            method: 'POST',
+            credentials: 'include',
+            headers: {
+                "XSRF-TOKEN": csrfToken ?? ""
+            }
         });
 
         alert(res.ok ? 'Logged out' : 'Logout failed');
