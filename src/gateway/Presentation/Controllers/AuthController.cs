@@ -13,11 +13,14 @@ public class AuthController : ControllerBase
     [HttpGet(nameof(SignIn))]
     public async Task<IActionResult> SignIn([FromQuery] string? redirectUrl)
     {
+        if (!Url.IsLocalUrl(redirectUrl))
+            redirectUrl = "/";
+
         return Challenge(
             authenticationSchemes: OpenIdConnectDefaults.AuthenticationScheme,
             properties: new AuthenticationProperties
             {
-                RedirectUri = redirectUrl ?? "/",
+                RedirectUri = redirectUrl,
             }
         );
     }
