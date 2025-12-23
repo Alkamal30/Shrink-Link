@@ -28,12 +28,17 @@ public class AuthController : ControllerBase
     [HttpGet(nameof(Me))]
     public async Task<IActionResult> Me()
     {
+        if (!(User.Identity?.IsAuthenticated ?? false))
+            return Ok(new { isAuthenticated = false });
+
+
         return Ok(new
         {
-            isAuthenticated = User.Identity?.IsAuthenticated ?? false,
-            name = User.Identity?.Name,
-            subject = User.FindFirst(ClaimTypes.NameIdentifier)?.Value,
-            claims = User.Claims.Select(c => new { c.Type, c.Value }),
+            isAuthenticated = true,
+            sub = User.FindFirstValue(ClaimTypes.NameIdentifier),
+            name = User.FindFirstValue("name"),
+            email = User.FindFirstValue(ClaimTypes.Email),
+            roles = User.FindAll(ClaimTypes.Role).Select(x => x.Value).Distinct(),
         });
     }
 
