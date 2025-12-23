@@ -1,7 +1,18 @@
+using Gateway.Presentation;
+using Gateway.Presentation.Middlewares;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddAntiforgery(options =>
+    {
+        options.HeaderName = Constants.AntiforgeryHeaderName;
+        options.Cookie.Name = Constants.AntiforgeryCookieName;
+        options.Cookie.HttpOnly = true;
+        options.Cookie.SameSite = SameSiteMode.Lax;
+        options.Cookie.SecurePolicy = builder.Environment.IsDevelopment() ? CookieSecurePolicy.SameAsRequest : CookieSecurePolicy.Always;
+    });
 
 builder.Services.AddAuthentication(options =>
     {
@@ -10,7 +21,7 @@ builder.Services.AddAuthentication(options =>
     })
     .AddCookie(options =>
     {
-        options.Cookie.Name = "Host-BFF";
+        options.Cookie.Name = Constants.AuthenticationCookieName;
         options.Cookie.HttpOnly = true;
         options.Cookie.SameSite = SameSiteMode.Lax;
         options.Cookie.SecurePolicy = builder.Environment.IsDevelopment() ? CookieSecurePolicy.SameAsRequest : CookieSecurePolicy.Always;
@@ -48,7 +59,7 @@ builder.Services.AddAuthorizationBuilder()
 builder.Services.AddReverseProxy()
     .LoadFromConfig(builder.Configuration.GetSection("ReverseProxy"));
 
-builder.Services.AddControllers();
+builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
 
@@ -56,6 +67,8 @@ app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.UseMiddleware<AntiforgeryMiddleware>();
 
 app.MapControllers();
 app.MapReverseProxy();

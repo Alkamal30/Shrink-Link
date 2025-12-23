@@ -38,6 +38,7 @@ public class AuthController : ControllerBase
     }
 
     [HttpPost(nameof(LogOut))]
+    [ValidateAntiForgeryToken]
     public async Task<IActionResult> LogOut()
     {
         await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
