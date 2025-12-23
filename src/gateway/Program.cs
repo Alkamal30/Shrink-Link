@@ -59,6 +59,7 @@ builder.Services.AddAuthorizationBuilder()
 builder.Services.AddReverseProxy()
     .LoadFromConfig(builder.Configuration.GetSection("ReverseProxy"));
 
+// TODO: Create own ValidateAntiForgeryAttribute and remove views
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
