@@ -3,6 +3,7 @@ name: CI/CD to k3s
 on:
   push:
     branches: [ main ]
+  workflow_dispatch:
 
 jobs:
   build-test:
