@@ -10,7 +10,7 @@ namespace Gateway.Presentation.Controllers;
 [Route("[controller]")]
 public class AuthController : ControllerBase
 {
-    [HttpGet(nameof(SignIn))]
+    [HttpGet("[action]")]
     public async Task<IActionResult> SignIn([FromQuery] string? redirectUrl)
     {
         if (!Url.IsLocalUrl(redirectUrl))
@@ -25,7 +25,7 @@ public class AuthController : ControllerBase
         );
     }
 
-    [HttpGet(nameof(Me))]
+    [HttpGet("[action]")]
     public async Task<IActionResult> Me()
     {
         if (!(User.Identity?.IsAuthenticated ?? false))
@@ -42,16 +42,19 @@ public class AuthController : ControllerBase
         });
     }
 
-    [HttpPost(nameof(LogOut))]
-    [ValidateAntiForgeryToken]
-    public async Task<IActionResult> LogOut()
+    [HttpGet("[action]")]
+    public new async Task<IActionResult> SignOut()
     {
-        await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-        await HttpContext.SignOutAsync(OpenIdConnectDefaults.AuthenticationScheme, new AuthenticationProperties
-        {
-            RedirectUri = "/"
-        });
-
-        return NoContent();
+        return SignOut(
+            properties: new AuthenticationProperties
+            {
+                RedirectUri = "/"
+            },
+            authenticationSchemes:
+            [
+                CookieAuthenticationDefaults.AuthenticationScheme,
+                OpenIdConnectDefaults.AuthenticationScheme
+            ]
+        );
     }
 }

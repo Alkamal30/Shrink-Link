@@ -69,15 +69,17 @@ const Home: React.FC = () => {
     };
 
     const handleLogOut = async () => {
-        const res = await fetch('http://localhost:5001/auth/LogOut', {
-            method: 'POST',
-            credentials: 'include',
-            headers: {
-                "XSRF-TOKEN": csrfToken ?? ""
-            }
-        });
+        window.location.assign('http://localhost:5001/auth/SignOut');
+        
+        // const res = await fetch('http://localhost:5001/auth/LogOut', {
+        //     method: 'POST',
+        //     credentials: 'include',
+        //     headers: {
+        //         "XSRF-TOKEN": csrfToken ?? ""
+        //     }
+        // });
 
-        alert(res.ok ? 'Logged out' : 'Logout failed');
+        // alert(res.ok ? 'Logged out' : 'Logout failed');
     };
 
     return (

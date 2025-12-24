@@ -21,17 +21,11 @@ namespace ShrinkLink.AuthService.Presentation.Controllers;
 public class AuthController(
     UserManager<Identity> userManager,
     SignInManager<Identity> signInManager,
-    IOpenIddictApplicationManager applicationManager,
-    IOpenIddictAuthorizationManager authorizationManager,
-    IOpenIddictScopeManager scopeManager,
     ISender sender
 ) : ControllerBase
 {
     private readonly UserManager<Identity> _userManager = userManager;
     private readonly SignInManager<Identity> _signInManager = signInManager;
-    private readonly IOpenIddictApplicationManager _applicationManager = applicationManager;
-    private readonly IOpenIddictAuthorizationManager _authorizationManager = authorizationManager;
-    private readonly IOpenIddictScopeManager _scopeManager = scopeManager;
     private readonly ISender _sender = sender;
 
     [HttpGet("[action]")]
@@ -51,7 +45,7 @@ public class AuthController(
     }
 
     [HttpGet("[action]")]
-    public async Task<IActionResult> LogOut(CancellationToken cancellationToken)
+    public async Task<IActionResult> SignOut(CancellationToken cancellationToken)
     {
         await _sender.Send(new LogOutCommand(), cancellationToken);
 

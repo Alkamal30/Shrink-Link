@@ -3,7 +3,7 @@ using static OpenIddict.Abstractions.OpenIddictConstants;
 
 namespace ShrinkLink.AuthService.Application.Helpers;
 
-public static class OpenIddictApplicationsRegistrator
+public static class OpenIddictApplicationsRegistrar
 {
     public static void RegisterApplications(WebApplication app)
     {
@@ -34,12 +34,13 @@ public static class OpenIddictApplicationsRegistrator
                     },
                     PostLogoutRedirectUris =
                     {
-                        new Uri("http://localhost:5001/")
+                        new Uri("http://localhost:5001/signout-callback-oidc")
                     },
                     Permissions =
                     {
                         Permissions.Endpoints.Authorization,
                         Permissions.Endpoints.Token,
+                        Permissions.Endpoints.EndSession,
 
                         Permissions.GrantTypes.AuthorizationCode,
                         Permissions.GrantTypes.RefreshToken,

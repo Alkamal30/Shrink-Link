@@ -46,7 +46,7 @@ builder.Services.AddOpenIddict()
 
         options.SetAuthorizationEndpointUris("/api/auth/connect/authorize")
             .SetTokenEndpointUris("/api/auth/connect/token")
-            .SetEndSessionEndpointUris($"/api/auth/{nameof(AuthController.LogOut)}")
+            .SetEndSessionEndpointUris($"/api/auth/{nameof(AuthController.SignOut)}")
             .AllowAuthorizationCodeFlow()
             .AllowRefreshTokenFlow()
             .RequireProofKeyForCodeExchange()
@@ -97,6 +97,6 @@ if (app.Environment.IsDevelopment())
 
 app.MapControllers();
 
-OpenIddictApplicationsRegistrator.RegisterApplications(app);
+OpenIddictApplicationsRegistrar.RegisterApplications(app);
 
 app.Run();
