@@ -1,7 +1,7 @@
 const API_HOST = import.meta.env.VITE_API_HOST as string;
 
 export async function shrinkLink(_url: string): Promise<string> {
-    const requestUrl = new URL("/link/shrink", API_HOST);
+    const requestUrl = new URL("/api/link/shrink", API_HOST);
     requestUrl.searchParams.append("url", _url);
 
     const response = await fetch(requestUrl.toString(), {
@@ -17,5 +17,5 @@ export async function shrinkLink(_url: string): Promise<string> {
     }
 
     const shortCode = await response.json();
-    return new URL(shortCode, API_HOST).toString();
+    return new URL(shortCode, API_HOST + '/r/').toString();
 }

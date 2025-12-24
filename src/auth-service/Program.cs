@@ -88,6 +88,14 @@ app.UseAuthorization();
 
 if (app.Environment.IsDevelopment())
 {
+    // TODO: Find a better solution and remove this code
+    using var scope = app.Services.CreateScope();
+    var dbContext = scope.ServiceProvider.GetRequiredService<AuthServiceDbContext>();
+    if (dbContext.Database.GetPendingMigrations().Any())
+    {
+        await dbContext.Database.MigrateAsync();
+    }
+
     app.MapOpenApi();
     app.UseSwaggerUI(options =>
     {

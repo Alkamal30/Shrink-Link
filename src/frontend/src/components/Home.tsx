@@ -9,27 +9,12 @@ import {
     Alert,
 } from "@mui/material";
 import { shrinkLink } from "../services/linkService";
-import { useAuth } from "react-oidc-context";
 
 const Home: React.FC = () => {
     const [value, setValue] = useState("");
     const [result, setResult] = useState("");
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
-    // const auth = useAuth();
-
-    const initCsrf = async () => {
-        const res = await fetch('http://localhost:5001/bff/csrf', {
-            method: 'GET',
-            credentials: 'include'
-        });
-        const data = await res.json();
-
-        csrfToken = data.token;
-    }
-
-    let csrfToken: string | null = null;
-    initCsrf();
 
     const handleClick = useCallback(async () => {
         const trimmedValue = value.trim();
@@ -53,35 +38,6 @@ const Home: React.FC = () => {
         }
     }, [value]);
 
-    const checkAuth = async () => {
-        const res = await fetch('http://localhost:5001/auth/me', {
-            method: 'GET'
-        });
-
-        const resJson = await res.json();
-
-        console.log(resJson);
-        alert(resJson.isAuthenticated ? 'Authenticated' : 'Not authenticated');
-    };
-
-    const handleLogin = async () => {
-        window.location.assign('http://localhost:5001/auth/SignIn');
-    };
-
-    const handleLogOut = async () => {
-        window.location.assign('http://localhost:5001/auth/SignOut');
-        
-        // const res = await fetch('http://localhost:5001/auth/LogOut', {
-        //     method: 'POST',
-        //     credentials: 'include',
-        //     headers: {
-        //         "XSRF-TOKEN": csrfToken ?? ""
-        //     }
-        // });
-
-        // alert(res.ok ? 'Logged out' : 'Logout failed');
-    };
-
     return (
         <Box
             sx={{
@@ -101,24 +57,6 @@ const Home: React.FC = () => {
                     Shrink link — in a blink!
                 </Typography>
             </Box>
-
-            <div style={{display: "flex", flexDirection: "column", gap: "8px"}}>
-                {/* {!auth.isAuthenticated ? (
-                    <button onClick={() => auth.signinRedirect()}>Login</button>
-                ) : (
-                    <>
-                        <div>Hello, {auth.user?.profile?.name ?? "user"}</div>
-                        <button onClick={() => auth.signoutSilent()}>Logout</button>
-                    </>
-                )} */}
-
-                <button onClick={() => handleLogin()}>Login</button>
-                <button onClick={() => handleLogOut()}>Log Out</button>
-            </div>
-
-            <div>
-                <button onClick={() => checkAuth()}>Check</button>
-            </div>
 
             {/* Инпут и кнопка */}
             <Box display="flex" flexDirection="column" gap={2}>

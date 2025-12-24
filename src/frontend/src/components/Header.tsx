@@ -1,6 +1,9 @@
 import { AppBar, Box, Button, Container, Toolbar, Typography } from "@mui/material";
+import { useAuth } from "./AuthProvider";
 
 const Header: React.FC = () => {
+    const auth = useAuth();
+
     return (
         <AppBar position='static'>
             <Container maxWidth='lg'>
@@ -23,18 +26,40 @@ const Header: React.FC = () => {
                         Shrink Link
                     </Typography>
                     <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-                        <Button
-                            href='/login'
-                            sx={{ my: 2, color: 'white', display: 'block' }}
-                        >
-                            Sign In
-                        </Button>
-                        <Button
-                            href='/register'
-                            sx={{ my: 2, color: 'white', display: 'block' }}
-                        >
-                            Sign Up
-                        </Button>
+                        {
+                            auth.isAuthenticated ? (
+                                <>
+                                    <Typography sx={{
+                                        color: "white",
+                                        display: "flex",
+                                        alignItems: "center",
+                                    }}>
+                                        {auth.user?.name ?? auth.user?.email ?? auth.user?.sub}
+                                    </Typography>
+
+                                    <Button
+                                        onClick={auth.signOut}
+                                        sx={{ my: 2, color: "white", display: "block" }}
+                                    >
+                                        Sign Out
+                                    </Button>
+                                </>
+                            ) : (
+                                <>
+                                    <Button
+                                        onClick={auth.signIn}
+                                        sx={{ my: 2, color: 'white', display: 'block' }}
+                                    >
+                                        Sign In
+                                    </Button>
+                                    {/* <Button
+                                        sx={{ my: 2, color: 'white', display: 'block' }}
+                                    >
+                                        Sign Up
+                                    </Button> */}
+                                </>
+                            )
+                        }
                     </Box>
                 </Toolbar>
             </Container>

@@ -83,7 +83,8 @@ app.MapReverseProxy();
 app.MapWhen(
     x => !x.Request.Path.StartsWithSegments("/api")
         && !x.Request.Path.StartsWithSegments("/bff")
-        && !x.Request.Path.StartsWithSegments("/auth"),
+        && !x.Request.Path.StartsWithSegments("/auth")
+        && !x.Request.Path.StartsWithSegments("/r"),
     builder =>
     {
         if (app.Environment.IsDevelopment())
