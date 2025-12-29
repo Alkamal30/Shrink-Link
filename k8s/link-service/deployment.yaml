@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: link-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: link-service
+  template:
+    metadata:
+      labels:
+        app: link-service
+    spec:
+      imagePullSecrets:
+        - name: ghcr-login-secret
+      containers:
+        - name: link-service-container
+          image: ghcr.io/alkamal30/shrink-link/link-service:latest
+          ports:
+            - containerPort: 8080
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: link-service-svc
+spec:
+  selector:
+    app: link-service
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
