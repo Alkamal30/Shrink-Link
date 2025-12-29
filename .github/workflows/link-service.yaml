@@ -73,11 +73,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setp kubectl
-        uses: azure/setup-kubectl@
+      - name: Setup Kubectl
+        uses: azure/setup-kubectl@v4
         with:
           version: 'latest'
-        
 
       - name: Set Kubernetes Context
         uses: azure/k8s-set-context@v4
