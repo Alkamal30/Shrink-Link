@@ -30,8 +30,12 @@ jobs:
     name: Build & Push Docker Image
     needs: build-and-test
     runs-on: ubuntu-latest
+    permissions:
+      packages: write
+      contents: read
+    outputs:
+      tag: ${{ steps.meta.outputs.version }}
     steps:
-      # Clone repository to VM
       - name: Checkout
         uses: actions/checkout@v4
 
@@ -40,7 +44,7 @@ jobs:
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
-          password: ${{ secrets.GHCR_TOKEN }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Extract metadata (tags, labels)
         id: meta
@@ -49,7 +53,7 @@ jobs:
           images: ghcr.io/${{ github.repository }}/link-service
           tags: |
             type=raw,value=latest,enable={{is_default_branch}}
-            type=sha,format=short
+            type=sha,format=short,prefix=sha-
             type=ref,event=pr
 
       - name: Build & Push Docker image
@@ -61,16 +65,22 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
 
-  # deploy:
-  #   needs: docker-publish
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: K3s deploy
-  #       uses: azure/k8s-deploy@v5
-  #       with:
-  #         action: deploy
-  #         manifests: |
-  #           k8s/link-service/deployment.yaml
-  #         images: |
-  #           ghcr.io/${{ github.repository }}/link-service:sha-${{ steps.vars.outputs.sha_short }}
-  #         kubectl-version: 'latest'
+  deploy:
+    needs: docker-publish
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set Kubernetes Context
+        uses: azure/k8s-set-context@v4
+        with:
+          method: kubeconfig
+          kubeconfig: ${{ secrets.KUBE_CONFIG }}
+
+      - name: K3s deploy
+        uses: azure/k8s-deploy@v5
+        with:
+          action: deploy
+          manifests: |
+            k8s/link-service/deployment.yaml
+          images: |
+            ghcr.io/${{ github.repository }}/link-service:${{ needs.docker-publish.outputs.tag }}
+          kubectl-version: 'latest'
