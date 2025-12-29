@@ -73,8 +73,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Install Kubernetes Client
-        uses: azure/setup-kubectl@v4
+      - name: Setp kubectl
+        uses: azure/setup-kubectl@
+        with:
+          version: 'latest'
+        
 
       - name: Set Kubernetes Context
         uses: azure/k8s-set-context@v4
@@ -90,4 +93,3 @@ jobs:
             k8s/link-service/deployment.yaml
           images: |
             ghcr.io/${{ github.repository }}/link-service:${{ needs.docker-publish.outputs.tag }}
-          kubectl-version: 'latest'
