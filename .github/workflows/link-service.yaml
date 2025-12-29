@@ -73,6 +73,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Install Kubernetes Client
+        uses: azure/setup-kubectl@v4
+
       - name: Set Kubernetes Context
         uses: azure/k8s-set-context@v4
         with:
