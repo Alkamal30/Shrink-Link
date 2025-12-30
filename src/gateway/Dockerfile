@@ -3,6 +3,7 @@ WORKDIR /src
 COPY src/gateway/Gateway.csproj gateway/
 RUN dotnet restore "gateway/Gateway.csproj"
 COPY src/gateway/ gateway/
+WORKDIR /src/gateway
 RUN dotnet publish -o /app/publish
 
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS publish
