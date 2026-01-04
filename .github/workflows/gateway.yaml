@@ -50,7 +50,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: ghcr.io/${{ github.repository }}/gateway
+          images: ghcr.io/${{ pathways.toLower(github.repository) }}/gateway
           tags: |
             type=raw,value=latest,enable={{is_default_branch}}
             type=sha,format=short,prefix=sha-
@@ -69,9 +69,6 @@ jobs:
     name: Deploy to K3S
     needs: docker-publish
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      packages: read
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -94,6 +91,4 @@ jobs:
           manifests: |
             k8s/gateway/deployment.yaml
           images: |
-            ghcr.io/${{ github.repository }}/gateway:${{ needs.docker-publish.outputs.tag }}
-          imagePullSecrets: |
-            ghcr-login-secret
+            ghcr.io/${{ pathways.toLower(github.repository) }}/gateway:${{ needs.docker-publish.outputs.tag }}
