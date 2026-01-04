@@ -69,6 +69,9 @@ jobs:
     name: Deploy to K3S
     needs: docker-publish
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: read
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -92,3 +95,5 @@ jobs:
             k8s/gateway/deployment.yaml
           images: |
             ghcr.io/${{ github.repository }}/gateway:${{ needs.docker-publish.outputs.tag }}
+          imagePullSecrets: |
+            ghcr-login-secret
