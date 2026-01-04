@@ -35,9 +35,14 @@ jobs:
       contents: read
     outputs:
       tag: ${{ steps.meta.outputs.version }}
+      repo: ${{ steps.lowercase.outputs.repo }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      - name: Lower-case repo name
+        id: lowercase
+        run: echo "repo=${GITHUB_REPOSITORY,,}" >> $GITHUB_OUTPUT
 
       - name: Login to GHCR
         uses: docker/login-action@v3
@@ -50,7 +55,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: ghcr.io/${{ pathways.toLower(github.repository) }}/gateway
+          images: ghcr.io/${{ steps.lowercase.outputs.repo }}/gateway
           tags: |
             type=raw,value=latest,enable={{is_default_branch}}
             type=sha,format=short,prefix=sha-
@@ -91,4 +96,4 @@ jobs:
           manifests: |
             k8s/gateway/deployment.yaml
           images: |
-            ghcr.io/${{ pathways.toLower(github.repository) }}/gateway:${{ needs.docker-publish.outputs.tag }}
+            ghcr.io/${{ needs.docker-publish.outputs.repo }}/gateway:${{ needs.docker-publish.outputs.tag }}
