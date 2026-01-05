@@ -19,3 +19,6 @@ spec:
           image: ghcr.io/alkamal30/shrink-link/link-service:latest
           ports:
             - containerPort: 8080
+          env:
+            - name: ASPNETCORE_ENVIRONMENT
+              value: Production

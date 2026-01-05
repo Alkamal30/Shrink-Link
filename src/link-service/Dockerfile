@@ -7,6 +7,7 @@ WORKDIR /src/link-service
 RUN dotnet publish -o /app/publish
 
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS publish
+ENV ASPNETCORE_ENVIRONMENT=Production
 WORKDIR /app
 COPY --from=build /app/publish .
 EXPOSE 8080
