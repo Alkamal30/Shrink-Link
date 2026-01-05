@@ -19,3 +19,8 @@ spec:
           image: ghcr.io/alkamal30/shrink-link/gateway:latest
           ports:
             - containerPort: 8080
+          env:
+            - name: ASPNETCORE_ENVIRONMENT
+              value: Production
+            - name: ReverseProxy__Clusters__cluster-links__Destinations__destination__Address
+              value: https://link-service
