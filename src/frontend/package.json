@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
+    "build-to-bff": "tsc -b && vite build --emptyOutDir --outDir ../gateway/wwwroot",
     "lint": "eslint .",
     "preview": "vite preview"
   },
