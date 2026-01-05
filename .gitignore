@@ -488,3 +488,6 @@ $RECYCLE.BIN/
 
 # gRPC
 *.pb.go
+
+# Gateway Service / wwwroot folder
+src/gateway/wwwroot
