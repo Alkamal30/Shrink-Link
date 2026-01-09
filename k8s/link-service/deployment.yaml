@@ -22,3 +22,10 @@ spec:
           env:
             - name: ASPNETCORE_ENVIRONMENT
               value: Production
+            - name: ConnectionStrings__DefaultConnection
+              value: Host=postgres.postgres.svc.cluster.local;Port=5432;Database=link_service_db;Username=default_user;Password=${POSTGRES_PASSWORD}
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: default-secrets
+                  key: POSTGRES_PASSWORD

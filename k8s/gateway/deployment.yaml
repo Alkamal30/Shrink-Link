@@ -23,4 +23,4 @@ spec:
             - name: ASPNETCORE_ENVIRONMENT
               value: Production
             - name: ReverseProxy__Clusters__cluster-links__Destinations__destination__Address
-              value: https://link-service
+              value: http://link-service
