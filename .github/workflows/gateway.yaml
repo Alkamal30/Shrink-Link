@@ -11,7 +11,7 @@ on:
 
 jobs:
   run-pipeline:
-    uses: ./service-template.yaml
+    uses: ./.github/workflows/service-template.yaml
     with:
       service-name: gateway
     secrets: inherit
