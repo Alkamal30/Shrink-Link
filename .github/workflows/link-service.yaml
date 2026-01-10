@@ -11,7 +11,7 @@ on:
 
 jobs:
   run-pipeline:
-    uses: ./.github/workflows/service-template.yaml
+    uses: ./.github/workflows/dotnet-service-template.yaml
     permissions:
       packages: write
       contents: read

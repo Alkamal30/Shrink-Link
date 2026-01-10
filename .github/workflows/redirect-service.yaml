@@ -1,0 +1,20 @@
+name: RedirectService
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - "src/redirect-service/**"
+      - "k8s/redirect-service/**"
+      - ".github/workflows/redirect-service.yaml"
+  workflow_dispatch:
+
+jobs:
+  run-pipeline:
+    uses: ./.github/workflows/go-service-template.yaml
+    permissions:
+      packages: write
+      contents: read
+    with:
+      service-name: redirect-service
+    secrets: inherit

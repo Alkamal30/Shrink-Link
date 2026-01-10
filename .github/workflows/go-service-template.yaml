@@ -1,4 +1,4 @@
-name: Service CI/CD Template
+name: Golang Service CI/CD Template
 
 on:
   workflow_call:
@@ -16,15 +16,17 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      # Install .NET to VM
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v4
+      # Install Golang to VM
+      - name: Setup Go
+        uses: actions/setup-go@v5
         with:
-          dotnet-version: '8.0.x'
+          go-version: '1.25.5'
+          cache-dependency-path: src/${{ inputs.service-name }}/go.sum
 
       # Restore dependencies
-      - name: Restore
-        run: dotnet restore src/${{ inputs.service-name }}/*.csproj
+      - name: Restore Dependencies
+        run: go mod download
+        working-directory: src/${{ inputs.service-name }}
 
   docker-publish:
     name: Build & Push Docker Image

@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redirect-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: redirect-service
+  template:
+    metadata:
+      labels:
+        app: redirect-service
+    spec:
+      imagePullSecrets:
+        - name: ghcr-login-secret
+      containers:
+        - name: redirect-service-container
+          image: ghcr.io/alkamal30/shrink-link/redirect-service:latest
+          ports:
+            - containerPort: 8080
+          env:
+            - name: GRPC_URL
+              value: http://link-service:50051
+            - name: REDIS_ADDRESS
+              value: http://redis
+            - name: KAFKA_BROKERS
+              value: http://kafka
+            - name: KAFKA_REDIRECTANALYTICSTOPIC
+              value: redirect-analytics-topic
