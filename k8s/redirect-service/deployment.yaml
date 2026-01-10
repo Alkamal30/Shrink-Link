@@ -21,7 +21,7 @@ spec:
             - containerPort: 8080
           env:
             - name: GRPC_URL
-              value: http://link-service:50051
+              value: link-service:50051
             - name: REDIS_ADDRESS
               value: http://redis
             - name: KAFKA_BROKERS
