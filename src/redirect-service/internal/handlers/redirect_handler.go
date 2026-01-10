@@ -56,6 +56,7 @@ func (h *RedirectHandler) Redirect(c *gin.Context) {
 
 		linkResponse, err := h.linkClient.GetOriginalLink(ctx, linkRequest)
 		if err != nil {
+			log.Printf("Could not retrieve original link. Error: %v", err)
 			statusCode = http.StatusNotFound
 			response = "Link is not found!"
 		} else {
