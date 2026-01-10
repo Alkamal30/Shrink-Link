@@ -104,5 +104,6 @@ jobs:
           action: deploy
           manifests: |
             k8s/${{ inputs.service-name }}/deployment.yaml
+            k8s/${{ inputs.service-name }}/service.yaml
           images: |
             ghcr.io/${{ needs.docker-publish.outputs.repo }}/${{ inputs.service-name }}:${{ needs.docker-publish.outputs.tag }}
