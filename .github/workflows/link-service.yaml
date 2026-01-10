@@ -12,6 +12,9 @@ on:
 jobs:
   run-pipeline:
     uses: ./.github/workflows/service-template.yaml
+    permissions:
+      packages: write
+      contents: read
     with:
       service-name: link-service
     secrets: inherit
