@@ -1,4 +1,18 @@
+using OpenTelemetry.Logs;
+using OpenTelemetry.Resources;
+
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Logging.ClearProviders();
+builder.Logging.AddConsole();
+builder.Logging.AddOpenTelemetry(x =>
+{
+    x.SetResourceBuilder(ResourceBuilder.CreateDefault().AddService("Gateway"));
+    x.AddOtlpExporter(otlp =>
+    {
+        otlp.Endpoint = new Uri(builder.Configuration["Otlp:Endpoint"]!);
+    });
+});
 
 builder.Services.AddAuthorizationBuilder()
     .AddPolicy("AdminOnly", policy => policy.RequireRole("Admin"));

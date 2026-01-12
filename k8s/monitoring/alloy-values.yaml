@@ -1,0 +1,30 @@
+alloy:
+  mounts:
+    varlog: true
+  configMap:
+    content: |
+      otelcol.receiver.otlp "recv" {
+        grpc { endpoint = "0.0.0.0:4317" }
+        http { endpoint = "0.0.0.0:4318" }
+        output {
+          logs = [otelcol.exporter.loki.to_loki.input]
+        }
+      }
+
+      otelcol.exporter.loki "to_loki" {
+        forward_to = []
+        endpoint {
+          url = "http://loki-gateway.monitoring.svc.cluster.local:80"
+        }
+      }
+
+service:
+  extraPorts:
+    - name: otlp-grpc
+      port: 4317
+      targetPort: 4317
+      protocol: TCP
+    - name: otlp-http
+      port: 4318
+      targetPort: 4318
+      protocol: TCP
