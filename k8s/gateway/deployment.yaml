@@ -17,6 +17,7 @@ spec:
       containers:
         - name: gateway-container
           image: ghcr.io/alkamal30/shrink-link/gateway:latest
+          imagePullPolicy: Always
           ports:
             - containerPort: 8080
           env:
