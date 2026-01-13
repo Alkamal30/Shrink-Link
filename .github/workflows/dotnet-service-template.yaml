@@ -61,7 +61,9 @@ jobs:
         with:
           images: ghcr.io/${{ steps.lowercase.outputs.repo }}/${{ inputs.service-name }}
           tags: |
-            type=sha,format=short,prefix=sha-
+            type=raw,value=latest,enable={{is_default_branch}}
+            type=sha,priority=250,format=short,prefix=sha-
+            type=ref,event=pr
 
       # Build Docker image & Push to GitHub Container Registry
       - name: Build & Push Docker image
