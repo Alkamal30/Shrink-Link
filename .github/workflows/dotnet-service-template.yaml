@@ -62,8 +62,6 @@ jobs:
           images: ghcr.io/${{ steps.lowercase.outputs.repo }}/${{ inputs.service-name }}
           tags: |
             type=sha,format=short,prefix=sha-
-            type=raw,value=latest,enable={{is_default_branch}}
-            type=ref,event=pr
 
       # Build Docker image & Push to GitHub Container Registry
       - name: Build & Push Docker image
@@ -102,6 +100,7 @@ jobs:
         uses: azure/k8s-deploy@v5
         with:
           action: deploy
+          namespace: default
           manifests: |
             k8s/${{ inputs.service-name }}/deployment.yaml
             k8s/${{ inputs.service-name }}/service.yaml
