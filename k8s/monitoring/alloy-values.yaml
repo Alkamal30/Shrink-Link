@@ -12,20 +12,20 @@ alloy:
       protocol: TCP
   configMap:
     content: |
-      otelcol.receiver.otlp "recv" {
+      otelcol.receiver.otlp "default" {
         grpc { endpoint = "0.0.0.0:4317" }
         http { endpoint = "0.0.0.0:4318" }
         output {
-          logs = [otelcol.exporter.loki.to_loki.input]
+          logs = [otelcol.exporter.loki.default.input]
         }
       }
 
-      otelcol.exporter.loki "to_loki" {
-        forward_to = [loki.write.local.receiver]
+      otelcol.exporter.loki "default" {
+        forward_to = [loki.write.default.receiver]
       }
 
-      loki.write "local" {
+      loki.write "default" {
         endpoint {
-          url = "http://loki-gateway.monitoring.svc.cluster.local:80"
+          url = "http://loki-gateway.monitoring.svc.cluster.local:80/loki/api/v1/push"
         }
       }
