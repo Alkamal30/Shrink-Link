@@ -1,21 +1,19 @@
-using Microsoft.EntityFrameworkCore;
 using MediatR;
 using ShrinkLink.LinkService.Domain.Data;
 using ShrinkLink.LinkService.Domain.Entities;
 
 namespace ShrinkLink.LinkService.Application.Features.Links.GetLink;
 
-public class GetLinkHandler : IRequestHandler<GetLinkQuery, Link?>
-{
-    public GetLinkHandler(ILinkServiceContext context)
-    {
-        _context = context;
-    }
+using Microsoft.Extensions.Logging;
 
-    private readonly ILinkServiceContext _context;
+public class GetLinkHandler(ILogger<GetLinkHandler> logger, ILinkServiceContext context) : IRequestHandler<GetLinkQuery, Link?>
+{
+    private readonly ILogger<GetLinkHandler> _logger = logger;
+    private readonly ILinkServiceContext _context = context;
 
     public async Task<Link?> Handle(GetLinkQuery request, CancellationToken cancellationToken)
     {
-        return await _context.Links.FirstOrDefaultAsync(x => x.Id == request.Id);
+        _logger.LogInformation("Fetching link with ID: {LinkId}", request.Id);
+        return await _context.Links.FindAsync([request.Id], cancellationToken);
     }
 }

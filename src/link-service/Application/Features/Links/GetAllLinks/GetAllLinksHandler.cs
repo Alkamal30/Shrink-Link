@@ -5,17 +5,17 @@ using ShrinkLink.LinkService.Domain.Entities;
 
 namespace ShrinkLink.LinkService.Application.Features.Links.GetAllLinks;
 
-public class GetAllLinksHandler : IRequestHandler<GetAllLinksQuery, IEnumerable<Link>>
+using Microsoft.Extensions.Logging;
+
+public class GetAllLinksHandler(ILogger<GetAllLinksHandler> logger, ILinkServiceContext context)
+    : IRequestHandler<GetAllLinksQuery, IEnumerable<Link>>
 {
-	public GetAllLinksHandler(ILinkServiceContext context)
-	{
-		_context = context;
-	}
+    private readonly ILogger<GetAllLinksHandler> _logger = logger;
+    private readonly ILinkServiceContext _context = context;
 
-	private readonly ILinkServiceContext _context;
-
-	public async Task<IEnumerable<Link>> Handle(GetAllLinksQuery request, CancellationToken cancellationToken)
-	{
-		return await _context.Links.ToListAsync();
-	}
+    public async Task<IEnumerable<Link>> Handle(GetAllLinksQuery request, CancellationToken cancellationToken)
+    {
+        _logger.LogInformation("Fetching all links");
+        return await _context.Links.ToListAsync(cancellationToken);
+    }
 }
