@@ -23,6 +23,8 @@ spec:
           env:
             - name: ASPNETCORE_ENVIRONMENT
               value: Production
+            - name: Otlp__Endpoint
+              value: http://alloy.monitoring.svc.cluster.local:4317
             - name: POSTGRES_PASSWORD
               valueFrom:
                 secretKeyRef:
