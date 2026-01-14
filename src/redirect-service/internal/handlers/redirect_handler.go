@@ -3,7 +3,7 @@ package handlers
 import (
 	"context"
 	"encoding/json"
-	"log"
+	"log/slog"
 	"net/http"
 	"redirect-service/internal/analytics"
 	"redirect-service/internal/configs"
@@ -36,33 +36,38 @@ func NewRedirectHandler(
 }
 
 func (h *RedirectHandler) Redirect(c *gin.Context) {
+	code := c.Param("code")
+	slog.Info("Incoming redirect request", "code", code, "ip", c.ClientIP(), "ua", c.Request.UserAgent())
+
 	var (
 		statusCode int
 		response   string
 	)
-	code := c.Param("code")
 
 	ctx, cancel := context.WithTimeout(c.Request.Context(), 5*time.Second)
 	defer cancel()
 
 	result, err := h.redisClient.Get(ctx, code).Result()
 	if err == nil {
+		slog.Info("Cache hit for redirect", "code", code)
 		statusCode = http.StatusFound
 		response = result
 	} else {
+		slog.Info("Cache miss for redirect, fetching from link-service", "code", code)
 		linkRequest := &contracts.GetOriginalLinkRequest{
 			Code: code,
 		}
 
 		linkResponse, err := h.linkClient.GetOriginalLink(ctx, linkRequest)
 		if err != nil {
-			log.Printf("Could not retrieve original link. Error: %v", err)
+			slog.Warn("Original link not found or service error", "code", code, "err", err)
 			statusCode = http.StatusNotFound
 			response = "Link is not found!"
 		} else {
+			slog.Info("Retrieved original link from service", "code", code, "url", linkResponse.OriginalLink)
 			err := h.redisClient.Set(ctx, code, linkResponse.OriginalLink, 24*time.Hour).Err()
 			if err != nil {
-				log.Printf("Could not add value to Redis. Error: %v", err)
+				slog.Error("Failed to cache link in Redis", "code", code, "err", err)
 			}
 
 			statusCode = http.StatusFound
@@ -71,19 +76,22 @@ func (h *RedirectHandler) Redirect(c *gin.Context) {
 	}
 
 	if statusCode == http.StatusFound {
+		slog.Info("Executing redirect", "code", code, "target", response)
 		h.sendAnalyticsData(c)
 
 		c.Redirect(statusCode, response)
 		return
 	}
 
+	slog.Warn("Redirect failed", "code", code, "status", statusCode)
 	c.JSON(statusCode, response)
 }
 
 func (h *RedirectHandler) sendAnalyticsData(ginContext *gin.Context) {
-	message, err := json.Marshal(h.buildAnalyticsData(ginContext))
+	analyticsData := h.buildAnalyticsData(ginContext)
+	message, err := json.Marshal(analyticsData)
 	if err != nil {
-		log.Printf("Could not to marshal RedirectAnalyticsData to JSON. Error: %v", err)
+		slog.Error("Could not to marshal RedirectAnalyticsData to JSON", "err", err)
 		return
 	}
 
@@ -91,7 +99,9 @@ func (h *RedirectHandler) sendAnalyticsData(ginContext *gin.Context) {
 		Value: message,
 	})
 	if err != nil {
-		log.Printf("Could not to send message to Kafka broker. Error: %v", err)
+		slog.Error("Could not to send message to Kafka broker", "err", err)
+	} else {
+		slog.Debug("Analytics data sent to Kafka", "code", analyticsData.ShortCode)
 	}
 }
 
