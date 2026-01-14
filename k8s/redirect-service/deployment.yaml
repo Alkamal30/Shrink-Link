@@ -17,6 +17,7 @@ spec:
       containers:
         - name: redirect-service-container
           image: ghcr.io/alkamal30/shrink-link/redirect-service:latest
+          imagePullPolicy: Always
           ports:
             - containerPort: 8080
           env:
