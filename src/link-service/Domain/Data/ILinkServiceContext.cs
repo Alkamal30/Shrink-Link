@@ -6,5 +6,5 @@ namespace ShrinkLink.LinkService.Domain.Data;
 public interface ILinkServiceContext
 {
     DbSet<Link> Links { get; }
-    Task<int> SaveChangesAsync();
+    Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
 }

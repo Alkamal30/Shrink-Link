@@ -22,13 +22,6 @@ var app = builder.Build();
 
 app.UseHttpsRedirection();
 
-app.MapGet("/healthcheck", (ILogger<Program> logger) =>
-{
-    logger.LogInformation("Health check is invoked!");
-
-    return Results.Ok();
-});
-
 app.MapReverseProxy();
 
 app.UseDefaultFiles();
