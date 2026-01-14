@@ -2,7 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using MediatR;
 using ShrinkLink.LinkService.Domain.Data;
 
-namespace ShrinkLink.LinkService.Application.Features.DeleteLink;
+namespace ShrinkLink.LinkService.Application.Features.Links.DeleteLink;
 
 public class DeleteLinkHandler : IRequestHandler<DeleteLinkCommand>
 {

@@ -2,7 +2,7 @@ using MediatR;
 using ShrinkLink.LinkService.Domain.Data;
 using ShrinkLink.LinkService.Domain.Entities;
 
-namespace ShrinkLink.LinkService.Application.Features.AddLink;
+namespace ShrinkLink.LinkService.Application.Features.Links.AddLink;
 
 public class AddLinkHandler : IRequestHandler<AddLinkCommand, Link>
 {
