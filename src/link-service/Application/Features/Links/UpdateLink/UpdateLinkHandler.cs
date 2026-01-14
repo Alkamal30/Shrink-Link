@@ -1,7 +1,5 @@
-using Microsoft.EntityFrameworkCore;
 using MediatR;
 using ShrinkLink.LinkService.Domain.Data;
-using ShrinkLink.LinkService.Domain.Entities;
 
 namespace ShrinkLink.LinkService.Application.Features.Links.UpdateLink;
 
