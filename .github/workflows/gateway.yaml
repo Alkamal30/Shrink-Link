@@ -5,6 +5,7 @@ on:
     branches: [ main ]
     paths:
       - "src/gateway/**"
+      - "src/frontend/**"
       - "k8s/gateway/**"
       - ".github/workflows/gateway.yaml"
   workflow_dispatch:
